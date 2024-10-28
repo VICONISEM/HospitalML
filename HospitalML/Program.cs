@@ -1,5 +1,6 @@
 
 using Hospital.DAL.Contexts;
+using HospitalML.Extentions;
 using Microsoft.EntityFrameworkCore;
 
 namespace HospitalML
@@ -23,10 +24,11 @@ namespace HospitalML
 
 
 			});
-
+		 
 
 
 			var app = builder.Build();
+			app.Services.ApplyMigrstions();
 
 			// Configure the HTTP request pipeline.
 			if (app.Environment.IsDevelopment())
