@@ -25,7 +25,7 @@ namespace HospitalML
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            app.UseAuthorization( );
 
 
             app.MapControllers();
