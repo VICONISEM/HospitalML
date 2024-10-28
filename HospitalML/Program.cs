@@ -28,7 +28,7 @@ namespace HospitalML
             app.UseAuthorization();
 
 
-            app.MapControllers();
+            app.MapControllers( );
 
             app.Run();
         }
