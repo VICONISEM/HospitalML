@@ -32,9 +32,10 @@ namespace HospitalML
  
  
             app.Run();
- 
+            Console.WriteLine("testt5");
 
-               
+
+
         }
     }
 }
