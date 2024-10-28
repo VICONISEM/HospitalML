@@ -31,6 +31,8 @@ namespace HospitalML
             app.MapControllers();
 
             app.Run();
+
+               
         }
     }
 }
