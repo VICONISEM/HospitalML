@@ -21,7 +21,7 @@ namespace Hospital.DAL.Configurations
             builder.HasIndex(p => p.Name);
 
             builder.HasMany(p => p.biologicalIndicators)
-                .WithOne(BI => BI.paient)
+                .WithOne(BI => BI.patient)
                 .HasForeignKey(BI => BI.PatientId);
 
 
