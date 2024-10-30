@@ -17,7 +17,9 @@ namespace Hospital.DAL.Entities
 		public float AverageTemprature { get; set; }
 		public TimeOnly Time { get; set; }
         public int PatientId { get; set; }
-        public Patient paient { get; set; }
+        public Patient patient { get; set; }
+
+
 
 
 

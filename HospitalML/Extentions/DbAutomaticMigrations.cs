@@ -23,13 +23,11 @@ namespace HospitalML.Extentions
 
 				Console.WriteLine("An error occurred while migrating the database: " + ex.Message);
 				// Optionally, log the exception or handle it as necessary
-		 
-
-
-
+ 
+			} 
 			}
 		}
 	}
 
-	}
+ 
 

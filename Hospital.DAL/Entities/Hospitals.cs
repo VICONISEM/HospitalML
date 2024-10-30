@@ -12,5 +12,7 @@ namespace Hospital.DAL.Entities
         public string Address { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
+
+        public List<Patient> Patients { get; set; } = new List<Patient>();
 	}
 }
