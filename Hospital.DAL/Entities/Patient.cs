@@ -19,6 +19,8 @@
 		public int HospitalId { get; set; }
 		public Hospitals hospital { get; set; }
 
+        public  List<BiologicalIndicators> biologicalIndicators { get; set; } = new List<BiologicalIndicators>();
+
 
 
 
