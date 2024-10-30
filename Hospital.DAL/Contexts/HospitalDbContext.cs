@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Hospital.DAL.Contexts
 {
-	public class HospitalDbContext:DbContext
+	public class HospitalDbContext : DbContext
 	{
-        public HospitalDbContext(DbContextOptions<HospitalDbContext> options):base(options)
-        { 
-            
-        }
+		public HospitalDbContext(DbContextOptions<HospitalDbContext> options) : base(options)
+		{
+
+		}
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
@@ -25,8 +25,9 @@ namespace Hospital.DAL.Contexts
 			base.OnModelCreating(modelBuilder);
 		}
 
+
 		public DbSet<BiologicalIndicators> BiologicalIndicators { get; set; }
-        public DbSet<Hospitals> Hospitals { get; set; }
-        public DbSet<Patient> patients { get; set; }
+		public DbSet<Hospitals> Hospitals { get; set; }
+		public DbSet<Patient> patients { get; set; }
 	}
 }

@@ -7,7 +7,7 @@ namespace HospitalML.Extentions
 	{
 		public static void ApplyMigrstions(this IServiceProvider services)
 		{
-			using var scope  = services.CreateScope();
+			using var scope = services.CreateScope();
 			var Dbcontext = scope.ServiceProvider.GetRequiredService<HospitalDbContext>();
 			try
 			{
@@ -16,14 +16,14 @@ namespace HospitalML.Extentions
 
 
 			}
-			  
-        catch (Exception ex)
-        {
+
+			catch (Exception ex)
+			{
 
 
 				Console.WriteLine("An error occurred while migrating the database: " + ex.Message);
 				// Optionally, log the exception or handle it as necessary
-		 
+			}
 
 
 
