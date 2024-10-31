@@ -13,7 +13,7 @@ namespace Hospital.BLL.Repository.Interface
     {
         List<TEntity>GetAll();
 
-         TEntity GetById(int id);    
+         TEntity? GetById(int? id);    
 
         void Add(TEntity entity); 
         
