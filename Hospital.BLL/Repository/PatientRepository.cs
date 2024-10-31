@@ -28,7 +28,7 @@ namespace Hospital.BLL.Repository
             var AllBI = _context.BiologicalIndicators.Where(B=>B.PatientId==Patient.Id).ToList();
 
             List <PatientDto> result= AllBI.Select(B => new PatientDto() { Date = B.Date, Time = B.Time, SugarPercentage = B.SugarPercentage }).ToList();
-            return result;
+            return result ;
         }
     }
 }

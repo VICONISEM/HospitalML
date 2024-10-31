@@ -17,7 +17,7 @@ namespace Hospital.BLL.Repository
         {
             _context = context;
         }
-        public GenericRepository() { }
+       
         public List<TEntity> GetAll()
         => _context.Set<TEntity>().ToList();
        
