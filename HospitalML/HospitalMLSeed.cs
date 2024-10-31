@@ -11,7 +11,7 @@ namespace HospitalML
 		{
 			if (!context.Hospitals.Any())
 			{
-				var HospitalData = File.ReadAllText(@"../HospitalML/Data/DataSeed/Hospitals.json");
+				var HospitalData = File.ReadAllText(@"..\HospitalML\DataSeed\Hospitals.json");
 
 
 				var Hospital = JsonSerializer.Deserialize<List<Hospitals>>(HospitalData);
