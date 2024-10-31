@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Hospital.DAL.Configurations
 {
-    public class PatientCongiguration : IEntityTypeConfiguration<Patient>
+    public class PatientConfiguration : IEntityTypeConfiguration<Patient>
     {
         public void Configure(EntityTypeBuilder<Patient> builder)
         {
