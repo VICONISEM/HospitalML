@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Hospital.DAL.Configurations
 {
-    public class PatientCongiguration : IEntityTypeConfiguration<Patient>
+    public class PatientConfiguration : IEntityTypeConfiguration<Patient>
     {
         public void Configure(EntityTypeBuilder<Patient> builder)
         {
@@ -21,7 +21,7 @@ namespace Hospital.DAL.Configurations
             builder.HasIndex(p => p.Name);
 
             builder.HasMany(p => p.biologicalIndicators)
-                .WithOne(BI => BI.paient)
+                .WithOne(BI => BI.patient)
                 .HasForeignKey(BI => BI.PatientId);
 
 
