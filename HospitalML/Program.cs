@@ -1,9 +1,11 @@
 
+using Hospital.BLL.PatientServices.Mapping;
 using Hospital.BLL.Repository;
 using Hospital.BLL.Repository.Interface;
 using Hospital.DAL.Contexts;
 using HospitalML.Extentions;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace HospitalML
 {
@@ -22,11 +24,14 @@ namespace HospitalML
 			builder.Services.AddDbContext<HospitalDbContext>(options =>
 			{
 				options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-				 
+
 
 			});
 			builder.Services.AddScoped<IPatientRepository, PatientRepository>();
-		 
+
+	        builder.Services.AddAutoMapper(x => x.AddProfile(new PatientMapper()));
+			//builder.Services.AddAutoMapper(typeof(PatientMapper));
+
 
 
 			var app = builder.Build();
