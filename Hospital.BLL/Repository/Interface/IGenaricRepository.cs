@@ -20,6 +20,9 @@ namespace Hospital.BLL.Repository.Interface
         void Update(TEntity entity);    
         void Delete(TEntity entity);    
        
+
+
+       
         
     }
 }
