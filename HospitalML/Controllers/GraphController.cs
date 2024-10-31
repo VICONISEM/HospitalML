@@ -1,5 +1,6 @@
-﻿using Hospital.BLL.Patient.Dto;
+﻿using Hospital.BLL.PatientServices.Dto;
 using Hospital.BLL.Repository.Interface;
+using Hospital.DAL.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +25,7 @@ namespace HospitalML.Controllers
         }
 
         [HttpGet("{Name}")]
-        public ActionResult<List<PatientDto>>GetBIByName(string Name)
+        public ActionResult<List<Patient>>GetBIByName(string Name)
         {
             var Result = _repository.GetBIByName(Name);
             return Ok(Result);
