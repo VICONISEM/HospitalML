@@ -38,7 +38,21 @@ namespace HospitalML
 
 
 			var app = builder.Build();
-			app.Services.ApplyMigrstions();
+            app.UseCors();
+
+            if (app.Environment.IsDevelopment() || app.Environment.IsStaging() || app.Environment.IsProduction())
+            {
+                app.UseDeveloperExceptionPage();
+
+
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Scoreboard API v1");
+                    c.RoutePrefix = string.Empty;
+                });
+            }
+            app.Services.ApplyMigrstions();
 
 			// Configure the HTTP request pipeline.
 			if (app.Environment.IsDevelopment())

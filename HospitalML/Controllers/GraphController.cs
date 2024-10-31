@@ -31,5 +31,6 @@ namespace HospitalML.Controllers
             var Result = _repository.GetBIByName(Name);
             return Ok(Result);
         }
+
     }
 }
