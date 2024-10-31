@@ -14,6 +14,9 @@ namespace Hospital.BLL.Repository.Interface
         List<TEntity>GetAll();
 
        
+
+
+       
         
     }
 }
