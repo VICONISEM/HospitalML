@@ -21,7 +21,7 @@ namespace HospitalML
 				{
 
 					 context.Hospitals.AddRange(Hospital);
-						context.SaveChanges();
+					context.SaveChanges();
 				}
 			}
 		}
