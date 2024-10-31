@@ -24,6 +24,44 @@ namespace HospitalML
 					context.SaveChanges();
 				}
 			}
+
+
+			if (!context.patients.Any())
+			{
+				var patientsData = File.ReadAllText(@"..\HospitalML\DataSeed\patients.json");
+
+
+				var patient = JsonSerializer.Deserialize<List<Patient>>(patientsData);
+
+
+				if (patient is not null && patient.Count() > 0)
+				{
+
+					context.patients.AddRange(patient);
+					context.SaveChanges();
+				}
+			}
+
+
+			if (!context.BiologicalIndicators.Any())
+			{
+				var BiologicalIndicatorsData = File.ReadAllText(@"..\HospitalML\DataSeed\biologicalIndicators.json");
+
+
+				var BiologicalIndicator = JsonSerializer.Deserialize<List<BiologicalIndicators>>(BiologicalIndicatorsData);
+
+
+				if (BiologicalIndicator is not null && BiologicalIndicator.Count() > 0)
+				{
+
+					context.BiologicalIndicators.AddRange(BiologicalIndicator);
+					context.SaveChanges();
+				}
+			}
+
+
+
+
 		}
 	}
 }

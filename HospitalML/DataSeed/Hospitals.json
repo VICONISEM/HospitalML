@@ -1,47 +1,42 @@
 [
   {
-    "Id": 1,
+    
     "Name": "Central Hospital",
     "Address": "123 Main St",
     "City": "New York",
-    "Country": "USA",
-    "CreatedAt": "2023-10-01T00:00:00",
-    "IsDeleted": false
+    "Country": "USA"
+ 
   },
   {
-    "Id": 2,
+ 
     "Name": "City Clinic",
     "Address": "456 Elm St",
     "City": "Los Angeles",
-    "Country": "USA",
-    "CreatedAt": "2023-10-01T00:00:00",
-    "IsDeleted": false
+    "Country": "USA"
+  
   },
   {
-    "Id": 3,
+ 
     "Name": "Sunshine Hospital",
     "Address": "789 Oak St",
     "City": "Chicago",
-    "Country": "USA",
-    "CreatedAt": "2023-10-01T00:00:00",
-    "IsDeleted": false
+    "Country": "USA"
+     
   },
   {
-    "Id": 4,
+ 
     "Name": "Mountain View Health",
     "Address": "321 Hilltop Ave",
     "City": "Denver",
-    "Country": "USA",
-    "CreatedAt": "2023-10-05T00:00:00",
-    "IsDeleted": false
+    "Country": "USA"
+    
   },
   {
-    "Id": 5,
+ 
     "Name": "Seaside Hospital",
     "Address": "654 Ocean Dr",
     "City": "Miami",
-    "Country": "USA",
-    "CreatedAt": "2023-10-07T00:00:00",
-    "IsDeleted": false
+    "Country": "USA"
+    
   }
 ]

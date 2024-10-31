@@ -1,74 +1,67 @@
 [
   {
-    "Id": 1,
+
     "Name": "John Doe",
     "PhoneNumber": "555-1234",
     "Address": "101 Maple St",
     "Sex": true,
     "NumberOfBirth": 0,
     "Pregnant": false,
-    "HospitalId": 1,
-    "CreatedAt": "2023-10-01T08:00:00",
-    "IsDeleted": false
+    "HospitalId": 1
+
   },
   {
-    "Id": 2,
+
     "Name": "Jane Smith",
     "PhoneNumber": "555-5678",
     "Address": "202 Pine St",
     "Sex": false,
     "NumberOfBirth": 2,
     "Pregnant": true,
-    "HospitalId": 1,
-    "CreatedAt": "2023-10-01T09:00:00",
-    "IsDeleted": false
+    "HospitalId": 1
+
   },
   {
-    "Id": 3,
+
     "Name": "Alice Johnson",
     "PhoneNumber": "555-8765",
     "Address": "303 Cedar St",
     "Sex": false,
     "NumberOfBirth": 1,
     "Pregnant": true,
-    "HospitalId": 2,
-    "CreatedAt": "2023-10-01T10:00:00",
-    "IsDeleted": false
+    "HospitalId": 2
+    
   },
   {
-    "Id": 4,
+
     "Name": "Bob Brown",
     "PhoneNumber": "555-4321",
     "Address": "404 Birch St",
     "Sex": true,
     "NumberOfBirth": 0,
     "Pregnant": false,
-    "HospitalId": 3,
-    "CreatedAt": "2023-10-01T11:00:00",
-    "IsDeleted": false
+    "HospitalId": 3
+
   },
   {
-    "Id": 5,
+
     "Name": "Eve Green",
     "PhoneNumber": "555-9988",
     "Address": "505 Cherry St",
     "Sex": false,
     "NumberOfBirth": 3,
     "Pregnant": true,
-    "HospitalId": 4,
-    "CreatedAt": "2023-10-05T12:00:00",
-    "IsDeleted": false
+    "HospitalId": 4
+
   },
   {
-    "Id": 6,
+     
     "Name": "Tom White",
     "PhoneNumber": "555-7766",
     "Address": "606 Peach St",
     "Sex": true,
     "NumberOfBirth": 0,
     "Pregnant": false,
-    "HospitalId": 5,
-    "CreatedAt": "2023-10-07T13:00:00",
-    "IsDeleted": false
+    "HospitalId": 5 
   }
 ]
