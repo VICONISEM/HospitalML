@@ -1,4 +1,6 @@
 
+using Hospital.BLL.Repository;
+using Hospital.BLL.Repository.Interface;
 using Hospital.DAL.Contexts;
 using HospitalML.Extentions;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +25,7 @@ namespace HospitalML
 				 
 
 			});
+			builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 		 
 
 
