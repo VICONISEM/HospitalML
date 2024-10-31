@@ -38,7 +38,16 @@ namespace HospitalML
 
 
 			var app = builder.Build();
-            app.UseCors();
+
+
+			using var scope = app.Services.CreateScope();
+			var services = scope.ServiceProvider;
+			var context = services.GetRequiredService<HospitalDbContext>();
+			HospitalMLSeed.SeedData(context);
+ 
+
+
+			app.UseCors();
 
             if (app.Environment.IsDevelopment() || app.Environment.IsStaging() || app.Environment.IsProduction())
             {
