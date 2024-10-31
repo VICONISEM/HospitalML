@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace Hospital.BLL.Repository
 {
-
 	public class GenericRepository<TEntity> : IGenaricRepository<TEntity> where TEntity : BaseEntity
 	{
 		private readonly HospitalDbContext _context;
@@ -23,7 +22,7 @@ namespace Hospital.BLL.Repository
 		//  public GenericRepository() { }
 
 		public List<TEntity> GetAll()
-	         => _context.Set<TEntity>().ToList();
+	=> _context.Set<TEntity>().ToList();
 
 		public void Add(TEntity entity)
 		{
@@ -52,5 +51,4 @@ namespace Hospital.BLL.Repository
 
 
 	}
-
 }
