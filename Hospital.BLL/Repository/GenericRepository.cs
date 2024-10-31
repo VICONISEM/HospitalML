@@ -1,4 +1,4 @@
-﻿using Hospital.BLL.Patient.Dto;
+﻿using Hospital.BLL.PatientServices.Dto;
 using Hospital.BLL.Repository.Interface;
 using Hospital.DAL.Contexts;
 using Hospital.DAL.Entities;

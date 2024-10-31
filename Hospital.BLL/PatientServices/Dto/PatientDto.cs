@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hospital.BLL.Patient.Dto
+namespace Hospital.BLL.PatientServices.Dto
 {
     public class PatientDto
     {
