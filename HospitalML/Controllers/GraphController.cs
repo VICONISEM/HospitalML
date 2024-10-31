@@ -1,4 +1,5 @@
 ﻿using Hospital.BLL.PatientServices.Dto;
+using Hospital.BLL.PatientServices.Service;
 using Hospital.BLL.Repository.Interface;
 using Hospital.DAL.Entities;
 using Microsoft.AspNetCore.Http;
@@ -10,14 +11,14 @@ namespace HospitalML.Controllers
     [ApiController]
     public class GraphController : ControllerBase
     {
-        private readonly IPatientRepository _repository;
+        private readonly IPatientService _repository;
 
-        public GraphController(IPatientRepository repository)
+        public GraphController(IPatientService repository)
         {
             _repository = repository;
         }
 
-        [HttpGet]
+        [HttpGet("AllNames")]
         public ActionResult<List<string>>GetAllNames()
         {
             var Names = _repository.GetAllName();
@@ -25,7 +26,7 @@ namespace HospitalML.Controllers
         }
 
         [HttpGet("{Name}")]
-        public ActionResult<List<Patient>>GetBIByName(string Name)
+        public ActionResult<List<PatientDto>>GetBIByName(string Name)
         {
             var Result = _repository.GetBIByName(Name);
             return Ok(Result);

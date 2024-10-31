@@ -1,5 +1,6 @@
 
 using Hospital.BLL.PatientServices.Mapping;
+using Hospital.BLL.PatientServices.Service;
 using Hospital.BLL.Repository;
 using Hospital.BLL.Repository.Interface;
 using Hospital.DAL.Contexts;
@@ -28,6 +29,8 @@ namespace HospitalML
 
 			});
 			builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+			builder.Services.AddScoped<IPatientService, PatientService>();
+
 
 	        builder.Services.AddAutoMapper(x => x.AddProfile(new PatientMapper()));
 			//builder.Services.AddAutoMapper(typeof(PatientMapper));
