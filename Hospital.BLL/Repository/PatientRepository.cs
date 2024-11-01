@@ -24,7 +24,7 @@ namespace Hospital.BLL.Repository
 
         public List<BiologicalIndicators> GetBIByName(string name)
         {
-            var Patient = _context.patients.FirstOrDefault(P => P.Name == name);
+            var Patient = _context.patients.FirstOrDefault(P => P.Name.Trim().ToLowerInvariant() == name.Trim().ToLowerInvariant());
             var AllBI = _context.BiologicalIndicators.Where(B=>B.PatientId==Patient.Id).ToList();
 
             return AllBI;
