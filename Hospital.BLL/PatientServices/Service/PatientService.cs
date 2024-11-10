@@ -14,20 +14,23 @@ namespace Hospital.BLL.PatientServices.Service
     {
         private readonly HospitalDbContext _context;
         private readonly IMapper _mapper;
-        public PatientRepository _patientRepository {
 
-         get {
+		public PatientService(HospitalDbContext context, IMapper mapper)
+		{
+			_context = context;
+			_mapper = mapper;
+		}
+		public PatientRepository _patientRepository {
+
+         get 
+            {
                 return new PatientRepository(_context);
             
             
             } 
         }
 
-        public PatientService(HospitalDbContext context , IMapper mapper)
-        {
-            _context = context;
-            _mapper = mapper;
-        }
+      
 
         public List<string> GetAllName()
          => _patientRepository.GetAllName().ToList(); 
