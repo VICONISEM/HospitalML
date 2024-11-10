@@ -1,4 +1,5 @@
-﻿using Hospital.DAL.Contexts;
+﻿using Hospital.BLL.Repository.Interface;
+using Hospital.DAL.Contexts;
 using Hospital.DAL.Entities;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Hospital.BLL.Repository
 {
-    public class BiologicalIndicatorsRepository : GenericRepository<BiologicalIndicators>
+    public class BiologicalIndicatorsRepository : GenericRepository<BiologicalIndicators>, IBiologicalIndicatorsRepository
     {
 		private readonly HospitalDbContext _context;
 
