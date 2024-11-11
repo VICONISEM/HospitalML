@@ -4,8 +4,12 @@ using Hospital.BLL.PatientServices.Dto;
 using Hospital.BLL.PatientServices.Service;
 using Hospital.BLL.Repository.Interface;
 using Hospital.DAL.Entities;
+using IronPython.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Scripting.Hosting; // Required to use Python from C#
+
+
 
 namespace HospitalML.Controllers
 {
@@ -17,34 +21,64 @@ namespace HospitalML.Controllers
         private readonly IBiologicalIndicatorService _IBiologicalIndicatorService;
 
 
-		public GraphController(IPatientService PatientService,IBiologicalIndicatorService biologicalIndicatorService)
+        public GraphController(IPatientService PatientService, IBiologicalIndicatorService biologicalIndicatorService)
         {
-			_IPatientService = PatientService;
-			_IBiologicalIndicatorService= biologicalIndicatorService;
+            _IPatientService = PatientService;
+            _IBiologicalIndicatorService = biologicalIndicatorService;
 
-		}
+        }
 
         [HttpGet("AllNames")]
-        public async Task<ActionResult<List<PatientDtoName>>>GetAllNames()
+        public async Task<ActionResult<List<PatientDtoName>>> GetAllNames()
         {
             var Names = await _IPatientService.GetAllName();
             return Ok(Names);
         }
 
         [HttpGet("{Name}")]
-        public async Task<ActionResult<List<PatientDto>>>GetBIByName(string Name)
+        public async Task<ActionResult<List<PatientDto>>> GetBIByName(string Name)
         {
             var Result = await _IPatientService.GetBIByName(Name);
             return Ok(Result);
         }
 
-        [HttpGet("GetAllBiologicalIndicator")]
-        public async Task< ActionResult<List<BiologicalIndicatorDto>>> GetAllBiologicalIndicator()
+
+        [HttpGet("{Name}/{D1}/{D2}")]
+        public async Task<ActionResult<List<PatientDto>>> GetBIByNameFilter(string Name, DateOnly D1, DateOnly D2)
         {
-            var Result= await _IBiologicalIndicatorService.GetAllBiologicalIndicators();
+            if (D1 <= D2)
+            {
+                var Result = await _IPatientService.GetBIByName(Name);
+                var Filter = Result.Where(R => R.Date >= D1 && R.Date <= D2);
+                return Ok(Filter);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
+
+
+        [HttpGet("GetAllBiologicalIndicator")]
+        public async Task<ActionResult<List<BiologicalIndicatorDto>>> GetAllBiologicalIndicator()
+        {
+            var Result = await _IBiologicalIndicatorService.GetAllBiologicalIndicators();
+            return Ok(Result);
+        }
+
+        [HttpGet("GetAllCritical")]
+        public async Task<ActionResult<List<BiologicalIndicatorDto>>> GetAllCritical()
+        {
+            var Result = await _IPatientService.GetAllCritical();
             return Ok(Result);
         }
 
 
-	}
+    }
 }
+
+
+
+
+

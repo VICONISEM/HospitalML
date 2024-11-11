@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Hospital.BLL.BiologicalIndicatorServices.Dto;
 using Hospital.BLL.PatientServices.Dto;
 using Hospital.BLL.Repository;
 using Hospital.DAL.Contexts;
@@ -29,6 +30,16 @@ namespace Hospital.BLL.PatientServices.Service
             
             } 
         }
+        public BiologicalIndicatorsRepository _BiologicalIndicatorsRepositoryRepository
+        {
+
+            get
+            {
+                return new BiologicalIndicatorsRepository(_context);
+
+
+            }
+        }
 
 
 
@@ -44,5 +55,15 @@ namespace Hospital.BLL.PatientServices.Service
             return  MappedBI;
            
         }
+
+        public async Task<List<BiologicalIndicatorsDto2>>GetAllCritical()
+        {
+            var CriticalBI = await _BiologicalIndicatorsRepositoryRepository.GetAll();
+             var filter= CriticalBI.Where(b => b.HealthCondition == "At Risk").GroupBy(b => b.Date).Select(g => new BiologicalIndicatorsDto2() { Date = g.Key, Count = g.DistinctBy(p=>p.PatientId).Count()}).ToList();
+            return filter;
+
+        }
+
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using Hospital.BLL.PatientServices.Dto;
+﻿using Hospital.BLL.BiologicalIndicatorServices.Dto;
+using Hospital.BLL.PatientServices.Dto;
 using Hospital.BLL.Repository;
 using Hospital.DAL.Entities;
 using System;
@@ -18,6 +19,11 @@ namespace Hospital.BLL.PatientServices.Service
         Task<List<PatientDtoName>> GetAllName();
 
         Task<List<PatientDto>> GetBIByName(string name);
+
+
+        Task<List<BiologicalIndicatorsDto2>> GetAllCritical();
+
+
 
     }
 }
