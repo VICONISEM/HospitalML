@@ -17,9 +17,9 @@ namespace Hospital.BLL.Repository
         {
             _context = context;
         }
-        public List<string> GetAllName()
+        public List<PatientDtoName> GetAllName()
         {
-            return _context.patients.Select(P => P.Name).ToList();
+            return _context.patients.Select(p=>new PatientDtoName() { Name = p.Name, State = p.biologicalIndicators.OrderByDescending(b => b.Date).ThenByDescending(b => b.Time).FirstOrDefault().HealthCondition }).ToList();
         }
 
         public List<BiologicalIndicators> GetBIByName(string name)

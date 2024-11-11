@@ -32,7 +32,7 @@ namespace Hospital.BLL.PatientServices.Service
 
       
 
-        public List<string> GetAllName()
+        public List<PatientDtoName> GetAllName()
          => _patientRepository.GetAllName().ToList(); 
         
 

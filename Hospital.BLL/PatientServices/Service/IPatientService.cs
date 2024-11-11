@@ -15,7 +15,7 @@ namespace Hospital.BLL.PatientServices.Service
         public PatientRepository _patientRepository { get; }
 
 
-        List<string> GetAllName();
+        List<PatientDtoName> GetAllName();
 
         List<PatientDto> GetBIByName(string name);
 

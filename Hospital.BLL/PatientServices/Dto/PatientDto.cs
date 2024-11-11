@@ -16,6 +16,7 @@ namespace Hospital.BLL.PatientServices.Dto
         public DateOnly Date { get; set; }
 
         public int HealthConditionScore { get; set; }
+        public string HealthCondition { get; set; }
 
 
     }

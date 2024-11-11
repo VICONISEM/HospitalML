@@ -16,7 +16,8 @@ namespace Hospital.BLL.PatientServices.Mapping
             CreateMap<BiologicalIndicators, PatientDto>().ForMember(x => x.SugarPercentage, y => y.MapFrom(P => P.SugarPercentage))
                                                         .ForMember(x => x.Date, y => y.MapFrom(P => P.Date))
                                                         .ForMember(x => x.Time, y => y.MapFrom(P => P.Time))
-                                                        .ForMember(x=>x.HealthConditionScore,y=>y.MapFrom(P=>P.HealthConditionScore));
+                                                        .ForMember(x=>x.HealthConditionScore,y=>y.MapFrom(P=>P.HealthConditionScore))
+                                                        .ForMember(x=>x.HealthCondition,y=>y.MapFrom(p=>p.HealthCondition));
                                                        
 
 

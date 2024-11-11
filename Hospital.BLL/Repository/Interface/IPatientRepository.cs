@@ -1,4 +1,5 @@
-﻿using Hospital.DAL.Entities;
+﻿using Hospital.BLL.PatientServices.Dto;
+using Hospital.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Hospital.BLL.Repository.Interface
 {
     public interface IPatientRepository:IGenaricRepository<Patient>
     {
-        List<string> GetAllName();
+        List<PatientDtoName> GetAllName();
 
         List<BiologicalIndicators> GetBIByName(string name);
 

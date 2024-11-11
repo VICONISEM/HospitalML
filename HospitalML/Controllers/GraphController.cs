@@ -25,7 +25,7 @@ namespace HospitalML.Controllers
 		}
 
         [HttpGet("AllNames")]
-        public ActionResult<List<string>>GetAllNames()
+        public ActionResult<List<PatientDtoName>>GetAllNames()
         {
             var Names = _IPatientService.GetAllName();
             return Ok(Names);
