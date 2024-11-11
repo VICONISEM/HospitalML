@@ -30,18 +30,18 @@ namespace Hospital.BLL.PatientServices.Service
             } 
         }
 
-      
 
-        public List<PatientDtoName> GetAllName()
-         => _patientRepository.GetAllName().ToList(); 
+
+        public async Task <List<PatientDtoName>> GetAllName()
+         => await _patientRepository.GetAllName(); 
         
 
-        public List<PatientDto> GetBIByName(string name)
+        public async Task<List<PatientDto>> GetBIByName(string name)
         {
-            var BI=_patientRepository.GetBIByName(name);
+            var BI=await _patientRepository.GetBIByName(name);
             var MappedBI = _mapper.Map<List<PatientDto>>(BI);
 
-            return MappedBI;
+            return  MappedBI;
            
         }
     }

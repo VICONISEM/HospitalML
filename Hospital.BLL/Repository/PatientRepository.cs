@@ -2,6 +2,7 @@
 using Hospital.BLL.Repository.Interface;
 using Hospital.DAL.Contexts;
 using Hospital.DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,14 +18,14 @@ namespace Hospital.BLL.Repository
         {
             _context = context;
         }
-        public List<PatientDtoName> GetAllName()
+        public async Task<List<PatientDtoName>> GetAllName()
         {
-            return _context.patients.Select(p=>new PatientDtoName() { Name = p.Name, State = p.biologicalIndicators.OrderByDescending(b => b.Date).ThenByDescending(b => b.Time).FirstOrDefault().HealthCondition }).ToList();
+            return await _context.patients.Select(p=>new PatientDtoName() { Name = p.Name, State = p.biologicalIndicators.OrderByDescending(b => b.Date).ThenByDescending(b => b.Time).FirstOrDefault().HealthCondition }).ToListAsync();
         }
 
-        public List<BiologicalIndicators> GetBIByName(string name)
+        public async Task<List<BiologicalIndicators>> GetBIByName(string name)
         {
-            var Patient = _context.patients.Where(P => P.Name.Trim().ToLower() == name.Trim().ToLower()).SelectMany(p=>p.biologicalIndicators).ToList();
+            var Patient = await _context.patients.Where(P => P.Name.Trim().ToLower() == name.Trim().ToLower()).SelectMany(p=>p.biologicalIndicators).ToListAsync();
             
             return Patient;
         }

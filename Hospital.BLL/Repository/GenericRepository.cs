@@ -2,6 +2,7 @@
 using Hospital.BLL.Repository.Interface;
 using Hospital.DAL.Contexts;
 using Hospital.DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,31 +22,33 @@ namespace Hospital.BLL.Repository
 
 		//  public GenericRepository() { }
 
-		public List<TEntity> GetAll()
-	=> _context.Set<TEntity>().ToList();
+		public async Task<List<TEntity>> GetAll()
+	=> await _context.Set<TEntity>().ToListAsync();
 
-		public void Add(TEntity entity)
+		public async Task Add(TEntity entity)
 		{
-			_context.Set<TEntity>().Add(entity);
+			 _context.Set<TEntity>().Add(entity);
+			await _context.SaveChangesAsync();
 
 		}
 
-		public void Update(TEntity entity)
+		public async Task Update(TEntity entity)
 		{
 			_context.Set<TEntity>().Update(entity);
-		}
+            await _context.SaveChangesAsync();
+        }
 
 
-		public TEntity? GetById(int? id)
+		public async  Task<TEntity?> GetById(int? id)
 		{  
-			return  _context.Set<TEntity>().FirstOrDefault(x => x.Id == id);
+			return await _context.Set<TEntity>().FirstOrDefaultAsync(x => x.Id == id);
 		}
 
 
 
-		public void Delete(TEntity entity)
+		public async Task Delete(TEntity entity)
 		{
-		 _context.Set<TEntity>().Remove(entity);
+		   _context.Set<TEntity>().Remove(entity);
 		}
 
 

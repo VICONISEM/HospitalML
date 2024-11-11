@@ -25,23 +25,23 @@ namespace HospitalML.Controllers
 		}
 
         [HttpGet("AllNames")]
-        public ActionResult<List<PatientDtoName>>GetAllNames()
+        public async Task<ActionResult<List<PatientDtoName>>>GetAllNames()
         {
-            var Names = _IPatientService.GetAllName();
+            var Names = await _IPatientService.GetAllName();
             return Ok(Names);
         }
 
         [HttpGet("{Name}")]
-        public ActionResult<List<PatientDto>>GetBIByName(string Name)
+        public async Task<ActionResult<List<PatientDto>>>GetBIByName(string Name)
         {
-            var Result = _IPatientService.GetBIByName(Name);
+            var Result = await _IPatientService.GetBIByName(Name);
             return Ok(Result);
         }
 
         [HttpGet("GetAllBiologicalIndicator")]
-        public ActionResult<List<BiologicalIndicatorDto>> GetAllBiologicalIndicator()
+        public async Task< ActionResult<List<BiologicalIndicatorDto>>> GetAllBiologicalIndicator()
         {
-            var Result= _IBiologicalIndicatorService.GetAllBiologicalIndicators();
+            var Result= await _IBiologicalIndicatorService.GetAllBiologicalIndicators();
             return Ok(Result);
         }
 

@@ -11,14 +11,14 @@ namespace Hospital.BLL.Repository.Interface
 {
     public interface IGenaricRepository<TEntity> where TEntity : BaseEntity
     {
-        List<TEntity>GetAll();
+        Task<List<TEntity>>GetAll();
 
-         TEntity? GetById(int? id);    
+         Task<TEntity?> GetById(int? id);    
 
-        void Add(TEntity entity); 
+        Task Add(TEntity entity); 
         
-        void Update(TEntity entity);    
-        void Delete(TEntity entity);    
+        Task Update(TEntity entity);    
+        Task Delete(TEntity entity);    
        
 
 

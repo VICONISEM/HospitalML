@@ -10,9 +10,9 @@ namespace Hospital.BLL.Repository.Interface
 {
     public interface IPatientRepository:IGenaricRepository<Patient>
     {
-        List<PatientDtoName> GetAllName();
+       Task<List<PatientDtoName>> GetAllName();
 
-        List<BiologicalIndicators> GetBIByName(string name);
+       Task<List<BiologicalIndicators>> GetBIByName(string name);
 
     }
 }

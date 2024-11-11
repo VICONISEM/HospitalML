@@ -32,9 +32,9 @@ namespace Hospital.BLL.BiologicalIndicatorServices.Service
 			_context = context;
 			_mapper = mapper;
 		}
-        public List<BiologicalIndicatorDto> GetAllBiologicalIndicators()
+        public async Task<List<BiologicalIndicatorDto>> GetAllBiologicalIndicators()
 		{
-			var BI = _BiologicalIndicatorsRepository.GetAll();
+			var BI = await _BiologicalIndicatorsRepository.GetAll();
 			var MappedBI=_mapper.Map<List<BiologicalIndicatorDto>>(BI);	
 			return MappedBI;
 			 

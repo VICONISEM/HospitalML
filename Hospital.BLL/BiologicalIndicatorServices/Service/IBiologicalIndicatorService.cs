@@ -12,6 +12,6 @@ namespace Hospital.BLL.BiologicalIndicatorServices.Service
 	{
         public BiologicalIndicatorsRepository _BiologicalIndicatorsRepository { get; }
 
-		List<BiologicalIndicatorDto> GetAllBiologicalIndicators();
+		Task<List<BiologicalIndicatorDto>> GetAllBiologicalIndicators();
     }
 }
