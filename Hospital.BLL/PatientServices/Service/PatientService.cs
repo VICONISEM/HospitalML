@@ -58,11 +58,33 @@ namespace Hospital.BLL.PatientServices.Service
 
         public async Task<List<BiologicalIndicatorsDto2>>GetAllCritical()
         {
-            var CriticalBI = await _BiologicalIndicatorsRepositoryRepository.GetAll();
-             var filter= CriticalBI.Where(b => b.HealthCondition == "At Risk").GroupBy(b => b.Date).Select(g => new BiologicalIndicatorsDto2() { Date = g.Key, Count = g.DistinctBy(p => p.PatientId).Count()}).ToList();
-            return filter;
+			 
 
-        }
+			// Fetch all biological indicators
+			var criticalBI = await _BiologicalIndicatorsRepositoryRepository.GetAll();
+            foreach (var BI in criticalBI)
+            {
+                _context.Entry(BI).Reference(n=>n.patient).Load(); 
+            }
+
+
+			// Filter and group by date, adding distinct patients for each date
+			var filter = criticalBI
+				.Where(b => b.HealthCondition == "At Risk")
+				.GroupBy(b => b.Date)
+				.Select(g => new BiologicalIndicatorsDto2
+				{
+					Date = g.Key,
+					Count = g.DistinctBy(p => p.PatientId).Count(),
+					Patients = g.DistinctBy(p => p.PatientId)
+								.Select(p => new PatientDtoName { Name = p.patient.Name,State = "At Risk" }) // Replace `PatientName` with the actual property name for the patient's name in your model
+								.ToList()  // Convert IEnumerable<PatientDtoName> to List<PatientDtoName>
+				})
+				.ToList();
+
+			return filter;
+
+		}
 
 
     }
