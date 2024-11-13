@@ -13,11 +13,13 @@ namespace Hospital.BLL.BiologicalIndicatorServices.Mapping
 	{
         public BiologicalIndicatorMapper()
         {
-            CreateMap<BiologicalIndicators,BiologicalIndicatorDto>().ForMember(x=>x.HealthCondition,y=>y.MapFrom(P=>P.HealthCondition))
-                                                                     .ForMember(x=>x.BloodPressure,y=>y.MapFrom(p=>p.BloodPressure))
-                                                                     .ForMember(x=>x.AverageTemprature,y=>y.MapFrom(p=>p.AverageTemprature))
-                                                                     .ForMember(x=>x.SugarPercentage,y=>y.MapFrom(p=>p.SugarPercentage))
-                                                                     .ForMember(x=>x.HealthConditionScore,y=>y.MapFrom(p=>p.HealthConditionScore));
+            CreateMap<BiologicalIndicators, BiologicalIndicatorDto>().ForMember(x => x.HealthCondition, y => y.MapFrom(P => P.HealthCondition))
+                                                                     .ForMember(x => x.BloodPressure, y => y.MapFrom(p => p.BloodPressure))
+                                                                     .ForMember(x => x.AverageTemprature, y => y.MapFrom(p => p.AverageTemprature))
+                                                                     .ForMember(x => x.SugarPercentage, y => y.MapFrom(p => p.SugarPercentage))
+                                                                     .ForMember(x => x.HealthConditionScore, y => y.MapFrom(p => p.HealthConditionScore))
+                                                                     .ForMember(x => x.date, y => y.MapFrom(p => p.Date))
+                                                                     .ForMember(x => x.time, y => y.MapFrom(p => p.Time));
         }
     }
 }
