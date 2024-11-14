@@ -5,8 +5,9 @@ using Hospital.BLL.PatientServices.Dto;
 using Hospital.BLL.PatientServices.Service;
 using Hospital.BLL.Repository.Interface;
 using Hospital.DAL.Entities;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
+using System.Text.Json;
 
 namespace HospitalML.Controllers
 {
@@ -19,13 +20,15 @@ namespace HospitalML.Controllers
         private readonly IBiologicalIndicatorService _IBiologicalIndicatorService;
         private readonly IMapper mapper;
         private readonly IGenaricRepository<Patient> PatientRepo;
+        private readonly HttpClient client;
 
-        public PatientController(IPatientService PatientService, IBiologicalIndicatorService biologicalIndicatorService, IMapper mapper, IGenaricRepository<Patient> PatientRepo)
+        public PatientController(IPatientService PatientService, IBiologicalIndicatorService biologicalIndicatorService, IMapper mapper, IGenaricRepository<Patient> PatientRepo, HttpClient client)
         {
             _IPatientService = PatientService;
             _IBiologicalIndicatorService = biologicalIndicatorService;
             this.mapper = mapper;
             this.PatientRepo = PatientRepo;
+            this.client = client;
         }
 
         [HttpGet("AllNames")]
@@ -118,6 +121,35 @@ namespace HospitalML.Controllers
         [HttpPost("AddBio")]
         public async Task<ActionResult> AddBio(BiologicalIndicatorDto indicatorDto, int UserId)
         {
+
+            string APIURL = "https://api-model-kohl.vercel.app/";
+
+            try
+            {
+                var content = new StringContent(JsonSerializer.Serialize(indicatorDto), System.Text.Encoding.UTF8, "application/json");
+                var response = await client.PostAsync(APIURL, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    var data = JsonSerializer.Deserialize<double>(responseContent);
+                    indicatorDto.HealthConditionScore = (int)data;
+                }
+                else
+                {
+                    return StatusCode((int)response.StatusCode, response.ReasonPhrase);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+
+            if (indicatorDto.BloodPressure > 140 || indicatorDto.SugarPercentage > 125) indicatorDto.HealthCondition = "At Risk";
+            else if (indicatorDto.HealthConditionScore >= 80) indicatorDto.HealthCondition = "Healthy";
+            else if (indicatorDto.HealthConditionScore >= 60) indicatorDto.HealthCondition = "Moderate";
+            else indicatorDto.HealthCondition = "Unhealthy";
+
             var Bio = mapper.Map<BiologicalIndicators>(indicatorDto);
 
             var user = await PatientRepo.GetById(UserId);
