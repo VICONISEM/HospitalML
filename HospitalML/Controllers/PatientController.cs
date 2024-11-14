@@ -2,7 +2,7 @@
 using Hospital.BLL.BiologicalIndicatorServices.Service;
 using Hospital.BLL.PatientServices.Dto;
 using Hospital.BLL.PatientServices.Service;
-using Hospital.BLL.Repository.Interface;
+using Hospital.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -63,6 +63,22 @@ namespace HospitalML.Controllers
         {
             var Result = await _IPatientService.GetAllCritical();
             return Ok(Result);
+        }
+
+        [HttpPost("CreatePatient")]
+        public async Task<ActionResult<PatientDto>> CreatePatient(PatientDto patientDto)
+        {
+            var patient = new Patient()
+            {
+                Name = patientDto.Name,
+                PhoneNumber = patientDto.PhoneNumber,
+                Address = patientDto.Address,
+                Sex = patientDto.Sex,
+                NumberOfBirth = patientDto.NumberOfBirth,
+                Pregnant = patientDto.Pregnant,
+                HospitalId = patientDto.HospitalId
+
+    };
         }
 
     }

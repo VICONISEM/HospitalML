@@ -33,7 +33,6 @@ namespace HospitalML.Controllers
             return Ok(Result);
         }
 
-
         [HttpGet("{Name}/{D1}/{D2}")]
         public async Task<ActionResult<List<BiologicalIndicatorDto>>> GetBIByNameFilter(string Name, DateOnly D1, DateOnly D2)
         {
