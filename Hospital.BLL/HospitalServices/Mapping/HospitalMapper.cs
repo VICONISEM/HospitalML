@@ -14,10 +14,6 @@ namespace Hospital.BLL.HospitalServices.Mapping
 
         public HospitalMapper() {
             CreateMap<Hospitals, HospitalDto>().ReverseMap();
-        
-        
-        
-        
         }
     }
 }
