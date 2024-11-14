@@ -17,7 +17,7 @@ namespace Hospital.BLL.Repository.Interface
 
         Task<int> Add(TEntity entity); 
         
-        Task <int> Update(TEntity entity);    
+        Task<int> Update(TEntity entity);    
         Task<int> Delete(TEntity entity);    
        
 

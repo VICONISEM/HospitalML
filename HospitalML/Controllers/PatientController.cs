@@ -1,7 +1,9 @@
-﻿using Hospital.BLL.BiologicalIndicatorServices.Dto;
+﻿using AutoMapper;
+using Hospital.BLL.BiologicalIndicatorServices.Dto;
 using Hospital.BLL.BiologicalIndicatorServices.Service;
 using Hospital.BLL.PatientServices.Dto;
 using Hospital.BLL.PatientServices.Service;
+using Hospital.BLL.Repository.Interface;
 using Hospital.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +17,15 @@ namespace HospitalML.Controllers
     {
         private readonly IPatientService _IPatientService;
         private readonly IBiologicalIndicatorService _IBiologicalIndicatorService;
+        private readonly IMapper mapper;
+        private readonly IGenaricRepository<Patient> PatientRepo;
 
-        public PatientController(IPatientService PatientService, IBiologicalIndicatorService biologicalIndicatorService)
+        public PatientController(IPatientService PatientService, IBiologicalIndicatorService biologicalIndicatorService, IMapper mapper, IGenaricRepository<Patient> PatientRepo)
         {
             _IPatientService = PatientService;
             _IBiologicalIndicatorService = biologicalIndicatorService;
+            this.mapper = mapper;
+            this.PatientRepo = PatientRepo;
         }
 
         [HttpGet("AllNames")]
@@ -68,17 +74,32 @@ namespace HospitalML.Controllers
         [HttpPost("CreatePatient")]
         public async Task<ActionResult<PatientDto>> CreatePatient(PatientDto patientDto)
         {
-            var patient = new Patient()
-            {
-                Name = patientDto.Name,
-                PhoneNumber = patientDto.PhoneNumber,
-                Address = patientDto.Address,
-                Sex = patientDto.Sex,
-                NumberOfBirth = patientDto.NumberOfBirth,
-                Pregnant = patientDto.Pregnant,
-                HospitalId = patientDto.HospitalId
+            var patient = mapper.Map<Patient>(patientDto);
 
-    };
+            var Result = await PatientRepo.Add(patient);
+
+            if (Result == 0) return BadRequest();
+
+            return Ok(patient);
+        }
+
+        [HttpPost("UpdatePatient")]
+        public async Task<ActionResult<PatientDto>> UpdatePatient(PatientDto patientDto)
+        {
+
+            var PatientExist = await PatientRepo.GetById(patientDto.Id);
+            if(PatientExist == null) return BadRequest();
+
+            var patient = mapper.Map<Patient>(patientDto);
+
+            var Result = await PatientRepo.Update(patient);
+
+            if(Result == 0) return BadRequest(); 
+
+            var patientRes = mapper.Map<PatientDto>(patient);
+
+            return Ok(patient);
+
         }
 
     }
