@@ -1,7 +1,6 @@
 ﻿using Hospital.BLL.TokenServices;
 using HospitalML.DTOs;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -41,7 +40,6 @@ namespace HospitalML.Controllers
                 Username = user.UserName,
                 Token = await tokenServices.CreateTokenAsync(user,userManager)
             };
-
             return Ok(userDto);
         }
 

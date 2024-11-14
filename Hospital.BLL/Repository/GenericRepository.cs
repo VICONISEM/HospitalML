@@ -46,9 +46,10 @@ namespace Hospital.BLL.Repository
 
 
 
-		public async Task Delete(TEntity entity)
+		public async Task<int> Delete(TEntity entity)
 		{
-		   _context.Set<TEntity>().Remove(entity);
+			_context.Set<TEntity>().Remove(entity);
+			return await _context.SaveChangesAsync();
 		}
 
 

@@ -2,15 +2,7 @@
 using Hospital.BLL.BiologicalIndicatorServices.Service;
 using Hospital.BLL.PatientServices.Dto;
 using Hospital.BLL.PatientServices.Service;
-using Hospital.BLL.Repository.Interface;
-using Hospital.DAL.Entities;
-using IronPython.Hosting;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Scripting.Hosting; // Required to use Python from C#
-
-
 
 namespace HospitalML.Controllers
 {
