@@ -16,18 +16,15 @@ namespace HospitalML.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class GraphController : ControllerBase
     {
         private readonly IPatientService _IPatientService;
         private readonly IBiologicalIndicatorService _IBiologicalIndicatorService;
 
-
         public GraphController(IPatientService PatientService, IBiologicalIndicatorService biologicalIndicatorService)
         {
             _IPatientService = PatientService;
             _IBiologicalIndicatorService = biologicalIndicatorService;
-
         }
 
         [HttpGet("AllNames")]
