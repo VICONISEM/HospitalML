@@ -115,5 +115,23 @@ namespace HospitalML.Controllers
             return Ok();
         }
 
+        [HttpPost("AddBio")]
+        public async Task<ActionResult> AddBio(BiologicalIndicatorDto indicatorDto, int UserId)
+        {
+            var Bio = mapper.Map<BiologicalIndicators>(indicatorDto);
+
+            var user = await PatientRepo.GetById(UserId);
+
+            if (user == null) return BadRequest();
+
+            user.biologicalIndicators.Add(Bio);
+
+            var Result = await PatientRepo.Update(user);
+
+            if(Result == 0)  return BadRequest(); 
+
+            return Ok();
+            
+        }
     }
 }

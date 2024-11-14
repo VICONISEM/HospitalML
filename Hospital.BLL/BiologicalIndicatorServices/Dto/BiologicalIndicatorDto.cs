@@ -16,7 +16,6 @@ namespace Hospital.BLL.BiologicalIndicatorServices.Dto
 		public float BloodPressure { get; set; }
 		public float AverageTemprature { get; set; }
 		public  DateOnly date { get; set; }
-
 		public  TimeOnly time { get; set; }
 		
 	}
