@@ -21,7 +21,7 @@ namespace HospitalML.Controllers
         }
 
         [HttpPost("AddHospital")]
-        public async Task<ActionResult<HospitalDto>> AddHospital(HospitalDto hospitalDto)
+        public async Task<ActionResult<HospitalDto>> AddHospital( [FromForm] HospitalDto hospitalDto)
         {
             Hospitals hospital = new Hospitals()
             {
@@ -39,7 +39,7 @@ namespace HospitalML.Controllers
         }
 
         [HttpPost("DeleteHospital/{Id}")]
-        public async Task<ActionResult> DeleteHospital(int id)
+        public async Task<ActionResult> DeleteHospital([FromForm] int id)
         {
             Hospitals? hospital = await HospitalRepo.GetById(id);
 
@@ -53,7 +53,7 @@ namespace HospitalML.Controllers
         }
 
         [HttpPost("UpdateHospital/{Id}")]
-        public async Task<ActionResult<HospitalDto>> UpdateHospital(HospitalDto hospitalDto, int Id)
+        public async Task<ActionResult<HospitalDto>> UpdateHospital( HospitalDto hospitalDto, int Id)
         {
             var hospital = new Hospitals()
             {
