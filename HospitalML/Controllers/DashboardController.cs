@@ -36,7 +36,7 @@ namespace HospitalML.Controllers
             return hospitalDto;
         }
 
-        [HttpPost("DeleteHospital")]
+        [HttpPost("DeleteHospital/{Id}")]
         public async Task<ActionResult> DeleteHospital(int id)
         {
             Hospitals? hospital = await HospitalRepo.GetById(id);
@@ -50,7 +50,7 @@ namespace HospitalML.Controllers
             return Ok();
         }
 
-        [HttpPost("UpdateHospital")]
+        [HttpPost("UpdateHospital/{Id}")]
         public async Task<ActionResult<HospitalDto>> UpdateHospital(HospitalDto hospitalDto, int Id)
         {
             var hospital = new Hospitals()
