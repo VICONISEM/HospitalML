@@ -1,6 +1,7 @@
 
 using Hospital.BLL.BiologicalIndicatorServices.Mapping;
 using Hospital.BLL.BiologicalIndicatorServices.Service;
+using Hospital.BLL.HospitalServices.Mapping;
 using Hospital.BLL.PatientServices.Mapping;
 using Hospital.BLL.PatientServices.Service;
 using Hospital.BLL.Repository;
@@ -40,8 +41,9 @@ namespace HospitalML
 			builder.Services.AddScoped<IPatientService, PatientService>();
 			builder.Services.AddScoped<IBiologicalIndicatorService,BiologicalIndicatorService>();
 
-	       // builder.Services.AddAutoMapper(x => x.AddProfile(new PatientMapper()));
+	        builder.Services.AddAutoMapper(x => x.AddProfile(new PatientMapper()));
 			builder.Services.AddAutoMapper(x=>x.AddProfile(new BiologicalIndicatorMapper()));
+			builder.Services.AddAutoMapper(x => x.AddProfile(new HospitalMapper()));
             //builder.Services.AddAutoMapper(typeof(PatientMapper));
 
 			//Add Identity Services TO DI Container
