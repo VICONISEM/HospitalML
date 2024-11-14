@@ -1,10 +1,7 @@
 ﻿using Hospital.BLL.HospitalServices.Dto;
-using Hospital.BLL.Repository;
 using Hospital.BLL.Repository.Interface;
 using Hospital.DAL.Entities;
-using HospitalML.DTOs;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalML.Controllers
