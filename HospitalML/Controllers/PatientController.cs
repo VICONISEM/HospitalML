@@ -12,7 +12,7 @@ namespace HospitalML.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class PatientController : ControllerBase
     {
         private readonly IPatientService _IPatientService;

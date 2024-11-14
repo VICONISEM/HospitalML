@@ -8,7 +8,7 @@ namespace HospitalML.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class HospitalController : ControllerBase
     {
         private readonly IGenaricRepository<Patient> PatientRepo;
@@ -31,7 +31,9 @@ namespace HospitalML.Controllers
                 Country = hospitalDto.Country
             };
 
-            await HospitalRepo.Add(hospital);
+            var Result = await HospitalRepo.Add(hospital);
+
+            if (Result == 0) return BadRequest();
 
             return hospitalDto;
         }
