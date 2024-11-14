@@ -25,7 +25,6 @@ namespace Hospital.DAL.Contexts
 			base.OnModelCreating(modelBuilder);
 		}
 
-
 		public DbSet<BiologicalIndicators> BiologicalIndicators { get; set; }
 		public DbSet<Hospitals> Hospitals { get; set; }
 		public DbSet<Patient> patients { get; set; }

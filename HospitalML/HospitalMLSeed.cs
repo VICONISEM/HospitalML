@@ -1,5 +1,6 @@
 ﻿using Hospital.DAL.Contexts;
 using Hospital.DAL.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 
@@ -7,7 +8,7 @@ namespace HospitalML
 {
 	public static class HospitalMLSeed
 	{ 
-	 public  static void SeedData(  HospitalDbContext context)
+	public static void SeedData(HospitalDbContext context)
 		{
 			if (!context.Hospitals.Any())
 			{
@@ -59,9 +60,6 @@ namespace HospitalML
 				}
 			}
 
-
-
-
-		}
+        }
 	}
 }

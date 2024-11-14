@@ -7,6 +7,7 @@ using Hospital.BLL.Repository;
 using Hospital.BLL.Repository.Interface;
 using Hospital.DAL.Contexts;
 using HospitalML.Extentions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -24,21 +25,36 @@ namespace HospitalML
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
+
 			builder.Services.AddDbContext<HospitalDbContext>(options =>
 			{
 				options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-
-
 			});
-			builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+
+            builder.Services.AddDbContext<ApplicationIdentityDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection"));
+            });
+
+            builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 			builder.Services.AddScoped<IPatientService, PatientService>();
 			builder.Services.AddScoped<IBiologicalIndicatorService,BiologicalIndicatorService>();
 
-
 	        builder.Services.AddAutoMapper(x => x.AddProfile(new PatientMapper()));
-			builder.Services.AddAutoMapper(x=>x.AddProfile(new BiologicalIndicatorMapper()));	
-			//builder.Services.AddAutoMapper(typeof(PatientMapper));
+			builder.Services.AddAutoMapper(x=>x.AddProfile(new BiologicalIndicatorMapper()));
+            //builder.Services.AddAutoMapper(typeof(PatientMapper));
 
+			//Add Identity Services TO DI Container
+            builder.Services.AddIdentityServices(builder.Configuration);
+
+            builder.Services.Configure<IdentityOptions>(options =>
+			{
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredLength = 8;
+            });
 
 
 			var app = builder.Build();
@@ -46,11 +62,12 @@ namespace HospitalML
 
 			using var scope = app.Services.CreateScope();
 			var services = scope.ServiceProvider;
+
 			var context = services.GetRequiredService<HospitalDbContext>();
-			HospitalMLSeed.SeedData(context);
+
+            HospitalMLSeed.SeedData(context);
+			IdentitySeed.SeedIdentity(services);
  
-
-
 			app.UseCors();
 
             if (app.Environment.IsDevelopment() || app.Environment.IsStaging() || app.Environment.IsProduction())
@@ -76,8 +93,8 @@ namespace HospitalML
 
 			app.UseHttpsRedirection();
 
+			app.UseAuthentication();
 			app.UseAuthorization();
-
 
 			app.MapControllers();
 
