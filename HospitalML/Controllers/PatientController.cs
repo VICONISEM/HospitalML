@@ -99,7 +99,20 @@ namespace HospitalML.Controllers
             var patientRes = mapper.Map<PatientDto>(patient);
 
             return Ok(patient);
+        }
 
+        [HttpPost("DeletePatient/{Id}")]
+        public async Task<ActionResult> DeletePatient(int Id)
+        {
+            var patient = await PatientRepo.GetById(Id);
+
+            if (patient == null) return BadRequest(); 
+
+            var Result = await PatientRepo.Delete(patient);
+
+            if (Result == 0) return BadRequest();
+
+            return Ok();
         }
 
     }

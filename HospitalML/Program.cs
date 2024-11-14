@@ -37,11 +37,14 @@ namespace HospitalML
                 options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection"));
             });
 
-            builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+            //builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 			builder.Services.AddScoped<IPatientService, PatientService>();
 			builder.Services.AddScoped<IBiologicalIndicatorService,BiologicalIndicatorService>();
 
-	        builder.Services.AddAutoMapper(x => x.AddProfile(new PatientMapper()));
+            builder.Services.AddScoped(typeof(IGenaricRepository<>), typeof(GenericRepository<>));
+
+
+            builder.Services.AddAutoMapper(x => x.AddProfile(new PatientMapper()));
 			builder.Services.AddAutoMapper(x=>x.AddProfile(new BiologicalIndicatorMapper()));
 			builder.Services.AddAutoMapper(x => x.AddProfile(new HospitalMapper()));
             //builder.Services.AddAutoMapper(typeof(PatientMapper));
