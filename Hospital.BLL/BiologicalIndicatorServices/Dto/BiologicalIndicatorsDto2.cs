@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hospital.BLL.PatientServices.Dto;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,5 +12,7 @@ namespace Hospital.BLL.BiologicalIndicatorServices.Dto
         public int Count { get; set; }
 
         public DateOnly Date { get; set; }
+
+        public List<PatientDtoName> Patients { get; set; }
     }
 }

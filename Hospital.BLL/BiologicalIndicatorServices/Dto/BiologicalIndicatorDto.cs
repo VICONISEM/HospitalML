@@ -14,8 +14,10 @@ namespace Hospital.BLL.BiologicalIndicatorServices.Dto
 		public string HealthCondition { get; set; }
 		public float SugarPercentage { get; set; }
 		public float BloodPressure { get; set; }
-
 		public float AverageTemprature { get; set; }
+		public  DateOnly date { get; set; }
+
+		public  TimeOnly time { get; set; }
 		
 	}
 }

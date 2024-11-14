@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Hospital.BLL.Repository
 {
-    public class PatientRepository : GenericRepository<Patient>,IPatientRepository
+    public class PatientRepository : GenericRepository<Patient>, IPatientRepository
     {
         private readonly HospitalDbContext _context;
         public PatientRepository(HospitalDbContext context):base(context) 
@@ -29,7 +29,5 @@ namespace Hospital.BLL.Repository
             
             return Patient;
         }
-
-      
-    }
+	}
 }

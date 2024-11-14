@@ -70,7 +70,7 @@ namespace HospitalML.Controllers
         }
 
         [HttpGet("GetAllCritical")]
-        public async Task<ActionResult<List<BiologicalIndicatorDto>>> GetAllCritical()
+        public async Task<ActionResult<List<BiologicalIndicatorsDto2>>> GetAllCritical()
         {
             var Result = await _IPatientService.GetAllCritical();
             return Ok(Result);
