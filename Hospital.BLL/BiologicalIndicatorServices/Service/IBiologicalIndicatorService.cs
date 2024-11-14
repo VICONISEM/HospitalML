@@ -13,5 +13,14 @@ namespace Hospital.BLL.BiologicalIndicatorServices.Service
         public BiologicalIndicatorsRepository _BiologicalIndicatorsRepository { get; }
 
 		Task<List<BiologicalIndicatorDto>> GetAllBiologicalIndicators();
+
+        Task<List<BiologicalIndicatorDto>> GetAll();
+
+        Task<BiologicalIndicatorDto?> GetById(int? id);
+
+        Task<int> Add(BiologicalIndicatorDto entity);
+
+        Task<int> Update(BiologicalIndicatorDto entity);
+        Task<int> Delete(BiologicalIndicatorDto entity);
     }
 }

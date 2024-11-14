@@ -9,8 +9,8 @@ namespace Hospital.BLL.BiologicalIndicatorServices.Dto
 {
 	public class BiologicalIndicatorDto
 	{
-		 
-		public int HealthConditionScore { get; set; }
+        public int Id { get; set; }
+        public int HealthConditionScore { get; set; }
 		public string HealthCondition { get; set; }
 		public float SugarPercentage { get; set; }
 		public float BloodPressure { get; set; }
