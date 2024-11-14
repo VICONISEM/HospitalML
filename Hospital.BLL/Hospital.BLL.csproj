@@ -15,4 +15,9 @@
     <ProjectReference Include="..\Hospital.DAL\Hospital.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="HospitalServices\Dto\" />
+    <Folder Include="HospitalServices\Mapping\" />
+  </ItemGroup>
+
 </Project>

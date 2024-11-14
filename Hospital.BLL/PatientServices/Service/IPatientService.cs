@@ -18,7 +18,7 @@ namespace Hospital.BLL.PatientServices.Service
 
         Task<List<PatientDtoName>> GetAllName();
 
-        Task<List<PatientDto>> GetBIByName(string name);
+        Task<List<BiologicalIndicatorDto>> GetBIByName(string name);
 
 
         Task<List<BiologicalIndicatorsDto2>> GetAllCritical();

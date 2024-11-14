@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Hospital.BLL.BiologicalIndicatorServices.Dto;
 using Hospital.BLL.PatientServices.Dto;
 using Hospital.DAL.Entities;
 using System;
@@ -13,9 +14,9 @@ namespace Hospital.BLL.PatientServices.Mapping
 	{
         public PatientMapper()
         {
-            CreateMap<BiologicalIndicators, PatientDto>().ForMember(x => x.SugarPercentage, y => y.MapFrom(P => P.SugarPercentage))
-                                                        .ForMember(x => x.Date, y => y.MapFrom(P => P.Date))
-                                                        .ForMember(x => x.Time, y => y.MapFrom(P => P.Time))
+            CreateMap<BiologicalIndicators, BiologicalIndicatorDto>().ForMember(x => x.SugarPercentage, y => y.MapFrom(P => P.SugarPercentage))
+                                                        .ForMember(x => x.date, y => y.MapFrom(P => P.Date))
+                                                        .ForMember(x => x.time, y => y.MapFrom(P => P.Time))
                                                         .ForMember(x=>x.HealthConditionScore,y=>y.MapFrom(P=>P.HealthConditionScore))
                                                         .ForMember(x=>x.HealthCondition,y=>y.MapFrom(p=>p.HealthCondition));
                                                        
