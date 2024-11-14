@@ -1,4 +1,5 @@
-﻿using Hospital.BLL.Repository;
+﻿using Hospital.BLL.HospitalServices.Dto;
+using Hospital.BLL.Repository;
 using Hospital.BLL.Repository.Interface;
 using Hospital.DAL.Entities;
 using HospitalML.DTOs;
