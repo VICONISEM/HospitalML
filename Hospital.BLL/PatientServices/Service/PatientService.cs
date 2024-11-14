@@ -47,10 +47,10 @@ namespace Hospital.BLL.PatientServices.Service
          => await _patientRepository.GetAllName(); 
         
 
-        public async Task<List<PatientDto>> GetBIByName(string name)
+        public async Task<List<BiologicalIndicatorDto>> GetBIByName(string name)
         {
             var BI=await _patientRepository.GetBIByName(name);
-            var MappedBI = _mapper.Map<List<PatientDto>>(BI);
+            var MappedBI = _mapper.Map<List<BiologicalIndicatorDto>>(BI);
 
             return  MappedBI;
            

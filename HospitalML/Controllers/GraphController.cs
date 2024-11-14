@@ -35,7 +35,7 @@ namespace HospitalML.Controllers
         }
 
         [HttpGet("{Name}")]
-        public async Task<ActionResult<List<PatientDto>>> GetBIByName(string Name)
+        public async Task<ActionResult<List<BiologicalIndicatorDto>>> GetBIByName(string Name)
         {
             var Result = await _IPatientService.GetBIByName(Name);
             return Ok(Result);
@@ -43,12 +43,12 @@ namespace HospitalML.Controllers
 
 
         [HttpGet("{Name}/{D1}/{D2}")]
-        public async Task<ActionResult<List<PatientDto>>> GetBIByNameFilter(string Name, DateOnly D1, DateOnly D2)
+        public async Task<ActionResult<List<BiologicalIndicatorDto>>> GetBIByNameFilter(string Name, DateOnly D1, DateOnly D2)
         {
             if (D1 <= D2)
             {
                 var Result = await _IPatientService.GetBIByName(Name);
-                var Filter = Result.Where(R => R.Date >= D1 && R.Date <= D2);
+                var Filter = Result.Where(R => R.date >= D1 && R.date <= D2);
                 return Ok(Filter);
             }
             else

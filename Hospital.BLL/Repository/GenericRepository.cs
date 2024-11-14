@@ -20,7 +20,6 @@ namespace Hospital.BLL.Repository
 		}
 
 
-		//  public GenericRepository() { }
 
 		public async Task<List<TEntity>> GetAll()
 	=> await _context.Set<TEntity>().ToListAsync();
