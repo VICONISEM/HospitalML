@@ -43,8 +43,6 @@ namespace Hospital.BLL.Repository
 			return await _context.Set<TEntity>().FirstOrDefaultAsync(x => x.Id == id);
 		}
 
-
-
 		public async Task<int> Delete(TEntity entity)
 		{
 			_context.Set<TEntity>().Remove(entity);
