@@ -1,4 +1,4 @@
-﻿namespace HospitalML.DTOs
+﻿namespace  Hospital.BLL.HospitalServices.Dto
 {
     public class HospitalDto
     {

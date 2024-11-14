@@ -24,17 +24,17 @@ namespace Hospital.BLL.Repository
 		public async Task<List<TEntity>> GetAll()
 	=> await _context.Set<TEntity>().ToListAsync();
 
-		public async Task Add(TEntity entity)
+		public async Task<int> Add(TEntity entity)
 		{
 			 _context.Set<TEntity>().Add(entity);
-			await _context.SaveChangesAsync();
+			return await _context.SaveChangesAsync();
 
 		}
 
-		public async Task Update(TEntity entity)
+		public async Task<int> Update(TEntity entity)
 		{
 			_context.Set<TEntity>().Update(entity);
-            await _context.SaveChangesAsync();
+           return await _context.SaveChangesAsync();
         }
 
 

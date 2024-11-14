@@ -1,4 +1,7 @@
-﻿using Hospital.DAL.Entities;
+﻿using Hospital.BLL.HospitalServices.Dto;
+using Hospital.BLL.Repository;
+using Hospital.BLL.Repository.Interface;
+using Hospital.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +12,16 @@ namespace Hospital.BLL.HospitalServices.Service
 {
     public interface IHospitalService
     {
-        Task<List<Hospitals>> GetAll();
 
-        Task<Hospitals?> GetById(int? id);
+        public HospitalRepository HospitalRepository { get; }
+        Task<List<HospitalDto>> GetAll();
 
-        Task Add(Hospitals entity);
+        Task<HospitalDto?> GetById(int? id);
 
-        Task Update(Hospitals entity);
-        Task Delete(Hospitals entity);
+        Task<int> Add(HospitalDto entity);
+
+        Task<int> Update(HospitalDto entity);
+        Task<int> Delete(HospitalDto entity);
+
     }
 }

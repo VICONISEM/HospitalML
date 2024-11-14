@@ -15,10 +15,10 @@ namespace Hospital.BLL.Repository.Interface
 
          Task<TEntity?> GetById(int? id);    
 
-        Task Add(TEntity entity); 
+        Task<int> Add(TEntity entity); 
         
-        Task Update(TEntity entity);    
-        Task Delete(TEntity entity);    
+        Task <int> Update(TEntity entity);    
+        Task<int> Delete(TEntity entity);    
        
 
 
