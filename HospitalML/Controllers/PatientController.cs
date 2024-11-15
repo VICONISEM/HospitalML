@@ -22,15 +22,16 @@ namespace HospitalML.Controllers
         private readonly IMapper mapper;
         private readonly IGenaricRepository<Patient> PatientRepo;
         private readonly HttpClient client;
+        private readonly IGenaricRepository<BiologicalIndicators> BioRepo;
 
-
-        public PatientController(IPatientService PatientService, IBiologicalIndicatorService biologicalIndicatorService, IMapper mapper, IGenaricRepository<Patient> PatientRepo, HttpClient client)
+        public PatientController(IPatientService PatientService, IBiologicalIndicatorService biologicalIndicatorService, IMapper mapper, IGenaricRepository<Patient> PatientRepo, HttpClient client, IGenaricRepository<BiologicalIndicators> BioRepo)
         {
             _IPatientService = PatientService;
             _IBiologicalIndicatorService = biologicalIndicatorService;
             this.mapper = mapper;
             this.PatientRepo = PatientRepo;
             this.client = client;
+            this.BioRepo = BioRepo;
         }
 
         [HttpGet("AllNames")]
@@ -93,13 +94,13 @@ namespace HospitalML.Controllers
         {
 
             var PatientExist = await PatientRepo.GetById(patientDto.Id);
-            if(PatientExist == null) return BadRequest();
+            if (PatientExist == null) return BadRequest();
 
             var patient = mapper.Map<Patient>(patientDto);
 
             var Result = await PatientRepo.Update(patient);
 
-            if(Result == 0) return BadRequest(); 
+            if (Result == 0) return BadRequest();
 
             var patientRes = mapper.Map<PatientDto>(patient);
 
@@ -111,7 +112,7 @@ namespace HospitalML.Controllers
         {
             var patient = await PatientRepo.GetById(Id);
 
-            if (patient == null) return BadRequest(); 
+            if (patient == null) return BadRequest();
 
             var Result = await PatientRepo.Delete(patient);
 
@@ -126,14 +127,14 @@ namespace HospitalML.Controllers
 
             try
             {
-                var content = new StringContent(JsonSerializer.Serialize(new { sugarPercentage = indicatorDto.SugarPercentage, bloodPressure = indicatorDto.BloodPressure, averageTemprature = indicatorDto.AverageTemprature}), System.Text.Encoding.UTF8, "application/json");
+                var content = new StringContent(JsonSerializer.Serialize(new { sugarPercentage = indicatorDto.SugarPercentage, bloodPressure = indicatorDto.BloodPressure, averageTemprature = indicatorDto.AverageTemprature }), System.Text.Encoding.UTF8, "application/json");
                 var response = await client.PostAsync("https://api-model-kohl.vercel.app/predict", content);
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
                     var data = JsonSerializer.Deserialize<ExternalAPIResponse>(responseContent);
-                    indicatorDto.HealthConditionScore = (int) data.predictedHealthConditionScore;
+                    indicatorDto.HealthConditionScore = (int)data.predictedHealthConditionScore;
                 }
                 else
                 {
@@ -160,10 +161,22 @@ namespace HospitalML.Controllers
 
             var Result = await PatientRepo.Update(user);
 
-            if(Result == 0)  return BadRequest(); 
+            if (Result == 0) return BadRequest();
 
             return Ok();
-            
+
+        }
+
+        [HttpPost("DeleteBio/{Id}")]
+        public async Task<ActionResult> DeleteBio(int Id)
+        {
+            var bio = await BioRepo.GetById(Id);
+            if (bio == null) return BadRequest();
+
+            var Result = await BioRepo.Delete(bio);
+
+            if(Result == 0) return BadRequest();
+            return Ok();
         }
     }
 }
