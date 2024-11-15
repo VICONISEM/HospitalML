@@ -9,7 +9,7 @@ namespace HospitalML.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class BiologicalIndicatorController : ControllerBase
     {
         private readonly IBiologicalIndicatorService _biologicalIndicatorService;

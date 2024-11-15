@@ -2,12 +2,14 @@
 using Hospital.BLL.BiologicalIndicatorServices.Service;
 using Hospital.BLL.PatientServices.Dto;
 using Hospital.BLL.PatientServices.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalML.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class GraphController : ControllerBase
     {
         private readonly IPatientService _IPatientService;
