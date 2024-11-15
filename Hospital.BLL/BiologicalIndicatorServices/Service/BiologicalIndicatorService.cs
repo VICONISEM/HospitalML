@@ -71,7 +71,7 @@ namespace Hospital.BLL.BiologicalIndicatorServices.Service
 
         public async Task<int> Delete(BiologicalIndicatorDto entity)
         {
-            var BI = _mapper.Map<BiologicalIndicators>(entity);
+            var BI = await _BiologicalIndicatorsRepository.GetById(entity.Id);
             return await _BiologicalIndicatorsRepository.Delete(BI);
         }
     }
