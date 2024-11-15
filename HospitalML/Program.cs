@@ -43,6 +43,8 @@ namespace HospitalML
 
             builder.Services.AddScoped(typeof(IGenaricRepository<>), typeof(GenericRepository<>));
 
+			builder.Services.AddHttpClient();
+
 
             builder.Services.AddAutoMapper(x => x.AddProfile(new PatientMapper()));
 			builder.Services.AddAutoMapper(x=>x.AddProfile(new BiologicalIndicatorMapper()));
