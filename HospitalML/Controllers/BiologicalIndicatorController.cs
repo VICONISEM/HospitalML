@@ -30,7 +30,7 @@ namespace HospitalML.Controllers
 
             if(Result is not null)
             {
-              //  var BI = _mapper.Map<BiologicalIndicatorDto>(Result);
+              
                 return  Ok(await _biologicalIndicatorService.Delete(Result));
 
             }

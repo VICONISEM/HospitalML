@@ -22,6 +22,6 @@ namespace Hospital.BLL.BiologicalIndicatorServices.Service
         Task<int> Add(BiologicalIndicatorDto entity);
 
         Task<int> Update(BiologicalIndicatorDto entity);
-        Task<int> Delete(BiologicalIndicators entity);
+        Task<int> Delete(BiologicalIndicatorDto entity);
     }
 }
