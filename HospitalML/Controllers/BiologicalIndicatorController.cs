@@ -30,9 +30,7 @@ namespace HospitalML.Controllers
 
             if(Result is not null)
             {
-              
                 return  Ok(await _biologicalIndicatorService.Delete(Result));
-
             }
             else
             {
