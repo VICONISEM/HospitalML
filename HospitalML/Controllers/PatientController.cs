@@ -119,10 +119,10 @@ namespace HospitalML.Controllers
         }
 
         [HttpPost("AddBio")]
-        public async Task<ActionResult> AddBio(BiologicalIndicatorDto indicatorDto, int UserId)
+        public async Task<ActionResult> AddBio([FromQuery] BiologicalIndicatorDto indicatorDto, int UserId)
         {
 
-            string APIURL = "https://api-model-kohl.vercel.app/";
+            string APIURL = "https://api-model-kohl.vercel.app/predict";
 
             try
             {
