@@ -32,10 +32,7 @@ namespace HospitalML
 				options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 			});
 
-            builder.Services.AddDbContext<ApplicationIdentityDbContext>(options =>
-            {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection"));
-            });
+           
 
             //builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 			builder.Services.AddScoped<IPatientService, PatientService>();

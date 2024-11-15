@@ -1,4 +1,6 @@
-﻿using Hospital.BLL.TokenServices;
+﻿using Hospital.BLL.Repository.Interface;
+using Hospital.BLL.TokenServices;
+using Hospital.DAL.Entities;
 using HospitalML.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,15 +13,17 @@ namespace HospitalML.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly SignInManager<IdentityUser> signInManager;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
         private readonly ITokenServices tokenServices;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, ITokenServices tokenServices)
+        private readonly IGenaricRepository<Hospitals> _HospitalRepo;
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ITokenServices tokenServices, IGenaricRepository<Hospitals> HospitalRepo)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.tokenServices = tokenServices;
+            this._HospitalRepo = HospitalRepo;
         }
 
         [HttpPost("Login")]
@@ -47,11 +51,12 @@ namespace HospitalML.Controllers
         [HttpPost("CreateUser")]
         public async Task<ActionResult<UserDto>> CreateUser(SignUpUserDto signUpUserDto)
         {
-            var user = new IdentityUser()
+            var user = new ApplicationUser()
             {
                 Email = signUpUserDto.Email,
                 UserName = signUpUserDto.Username,
-                PhoneNumber = signUpUserDto.PhoneNumber
+                PhoneNumber = signUpUserDto.PhoneNumber,
+                HospitalId = signUpUserDto.HospitalId
             };
 
             var Result = await userManager.CreateAsync(user, signUpUserDto.Password);
@@ -65,6 +70,7 @@ namespace HospitalML.Controllers
             {
                 Email = signUpUserDto.Email,
                 Username = signUpUserDto.Username,
+                HospitalName = _HospitalRepo.GetById(signUpUserDto.HospitalId).Result.Name,
                 Token = await tokenServices.CreateTokenAsync(user,userManager)
             };
 
@@ -84,7 +90,8 @@ namespace HospitalML.Controllers
             var userDto = new UserDto()
             {
                 Email = user.Email,
-                Username = user.UserName
+                Username = user.UserName,
+                HospitalName = _HospitalRepo.GetById(user.HospitalId).Result.Name
             };
 
             return Ok(userDto);

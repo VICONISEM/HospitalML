@@ -1,4 +1,5 @@
 ﻿using Hospital.DAL.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace Hospital.DAL.Contexts
 {
-	public class HospitalDbContext : DbContext
-	{
+	public class HospitalDbContext : IdentityDbContext<ApplicationUser>
+    {
 		public HospitalDbContext(DbContextOptions<HospitalDbContext> options) : base(options)
 		{
 

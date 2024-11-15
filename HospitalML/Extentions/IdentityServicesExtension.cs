@@ -1,5 +1,6 @@
 ﻿using Hospital.BLL.TokenServices;
 using Hospital.DAL.Contexts;
+using Hospital.DAL.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -13,8 +14,8 @@ namespace HospitalML.Extentions
         {
             Services.AddScoped<ITokenServices, TokenServices>();
 
-            Services.AddIdentity<IdentityUser, IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationIdentityDbContext>();
+            Services.AddIdentity<ApplicationUser, IdentityRole>()
+            .AddEntityFrameworkStores<HospitalDbContext>();
 
             Services.AddAuthentication(options =>
             {
