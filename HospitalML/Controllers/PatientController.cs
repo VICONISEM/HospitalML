@@ -5,6 +5,7 @@ using Hospital.BLL.PatientServices.Dto;
 using Hospital.BLL.PatientServices.Service;
 using Hospital.BLL.Repository.Interface;
 using Hospital.DAL.Entities;
+using HospitalML.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using System.Text.Json;
@@ -21,6 +22,7 @@ namespace HospitalML.Controllers
         private readonly IMapper mapper;
         private readonly IGenaricRepository<Patient> PatientRepo;
         private readonly HttpClient client;
+
 
         public PatientController(IPatientService PatientService, IBiologicalIndicatorService biologicalIndicatorService, IMapper mapper, IGenaricRepository<Patient> PatientRepo, HttpClient client)
         {
@@ -122,18 +124,16 @@ namespace HospitalML.Controllers
         public async Task<ActionResult> AddBio(BiologicalIndicatorDto indicatorDto, int UserId)
         {
 
-            string APIURL = "https://api-model-kohl.vercel.app/";
-
             try
             {
-                var content = new StringContent(JsonSerializer.Serialize(indicatorDto), System.Text.Encoding.UTF8, "application/json");
-                var response = await client.PostAsync(APIURL, content);
+                var content = new StringContent(JsonSerializer.Serialize(new { sugarPercentage = indicatorDto.SugarPercentage, bloodPressure = indicatorDto.BloodPressure, averageTemprature = indicatorDto.AverageTemprature}), System.Text.Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("https://api-model-kohl.vercel.app/predict", content);
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
-                    var data = JsonSerializer.Deserialize<double>(responseContent);
-                    indicatorDto.HealthConditionScore = (int)data;
+                    var data = JsonSerializer.Deserialize<ExternalAPIResponse>(responseContent);
+                    indicatorDto.HealthConditionScore = (int) data.predictedHealthConditionScore;
                 }
                 else
                 {
