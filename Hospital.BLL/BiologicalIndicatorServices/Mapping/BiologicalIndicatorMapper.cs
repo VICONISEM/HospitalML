@@ -19,7 +19,7 @@ namespace Hospital.BLL.BiologicalIndicatorServices.Mapping
                                                                      .ForMember(x => x.SugarPercentage, y => y.MapFrom(p => p.SugarPercentage))
                                                                      .ForMember(x => x.HealthConditionScore, y => y.MapFrom(p => p.HealthConditionScore))
                                                                      .ForMember(x => x.date, y => y.MapFrom(p => p.Date))
-                                                                     .ForMember(x => x.time, y => y.MapFrom(p => p.Time));
+                                                                     .ForMember(x => x.time, y => y.MapFrom(p => p.Time)).ReverseMap();
         }
     }
 }

@@ -123,6 +123,7 @@ namespace HospitalML.Controllers
         [HttpPost("AddBio")]
         public async Task<ActionResult> AddBio([FromQuery] BiologicalIndicatorDto indicatorDto, int UserId)
         {
+
             try
             {
                 var content = new StringContent(JsonSerializer.Serialize(new { sugarPercentage = indicatorDto.SugarPercentage, bloodPressure = indicatorDto.BloodPressure, averageTemprature = indicatorDto.AverageTemprature}), System.Text.Encoding.UTF8, "application/json");
