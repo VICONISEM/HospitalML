@@ -9,12 +9,12 @@ namespace HospitalML.Extentions
 		{
 			using var scope = services.CreateScope();
 			var Dbcontext = scope.ServiceProvider.GetRequiredService<HospitalDbContext>();
-            var identityDbcontext = scope.ServiceProvider.GetRequiredService<ApplicationIdentityDbContext>();
+          
 
             try
             {
 				Dbcontext.Database.Migrate();
-                identityDbcontext.Database.Migrate();
+                
 
                 Console.WriteLine("Database migration applied successfully.");
 

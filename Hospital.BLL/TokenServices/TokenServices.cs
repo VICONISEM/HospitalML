@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Hospital.DAL.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -20,7 +21,7 @@ namespace Hospital.BLL.TokenServices
             this.configuration = configuration;
         }
 
-        public async Task<string> CreateTokenAsync(IdentityUser User, UserManager<IdentityUser> userManager)
+        public async Task<string> CreateTokenAsync(ApplicationUser User, UserManager<ApplicationUser> userManager)
         {
             //Payload
             //1. Private Claims

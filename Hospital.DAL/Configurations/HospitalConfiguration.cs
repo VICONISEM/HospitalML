@@ -23,6 +23,9 @@ namespace Hospital.DAL.Configurations
 				.WithOne(p => p.hospital)
 				.HasForeignKey(p => p.HospitalId);
 
+		
+		
+
 		}
 	}
 }

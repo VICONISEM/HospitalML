@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Hospital.DAL.Entities;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Hospital.BLL.TokenServices
 {
     public interface ITokenServices
     {
-        public Task<string> CreateTokenAsync(IdentityUser User, UserManager<IdentityUser> userManager);
+        public Task<string> CreateTokenAsync(ApplicationUser User, UserManager<ApplicationUser> userManager);
     }
 }

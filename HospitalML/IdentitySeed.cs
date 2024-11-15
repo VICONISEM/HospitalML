@@ -1,4 +1,5 @@
 ﻿using Hospital.DAL.Contexts;
+using Hospital.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using System.Text.Json;
 
@@ -8,7 +9,7 @@ namespace HospitalML
     {
         public async static void SeedIdentity(IServiceProvider serviceProvider)
         {
-            var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
             if(!roleManager.Roles.Any())
@@ -27,7 +28,7 @@ namespace HospitalML
 
             if (!userManager.Users.Any())
             {
-                var user = new IdentityUser()
+                var user = new ApplicationUser()
                 {
                     Email = "Mo7amed6102003@gmail.com",
                     UserName = "Mohamed_10",

@@ -1,6 +1,8 @@
-﻿using Hospital.BLL.HospitalServices.Dto;
+﻿using AutoMapper;
+using Hospital.BLL.HospitalServices.Dto;
 using Hospital.BLL.Repository;
 using Hospital.DAL.Contexts;
+using Hospital.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +14,17 @@ namespace Hospital.BLL.HospitalServices.Service
     public class HospitalService : IHospitalService
     {
 
-
-        public HospitalService(HospitalDbContext context ) {
+        public HospitalService(HospitalDbContext context, IMapper mapper)
+        {
 
             _context = context;
+            _mapper=mapper;
         }
+
+
+        private readonly IMapper _mapper;
+
+       
         private readonly HospitalDbContext _context;
         public HospitalRepository HospitalRepository {
 
@@ -27,44 +35,54 @@ namespace Hospital.BLL.HospitalServices.Service
         
         }
 
-        public async Task Add(HospitalDto entity)
+        public async Task<int> Add(HospitalDto entity)
         {
+            var Hospital=_mapper.Map<Hospitals>(entity);
+            return await HospitalRepository.Add(Hospital);
             
         }
 
-        public Task Delete(HospitalDto entity)
+        public async Task<int> Delete(HospitalDto entity)
         {
-            throw new NotImplementedException();
+            var Hospital = await HospitalRepository.GetById(entity.Id);
+
+            return await  HospitalRepository.Delete(Hospital);
+
+
+
         }
 
-        public Task<List<HospitalDto>> GetAll()
+        public async  Task<List<HospitalDto>> GetAll()
         {
-            throw new NotImplementedException();
+            var Hospitals=await HospitalRepository.GetAll();
+            var MappedHospitals = _mapper.Map<List<HospitalDto>>(Hospitals);
+            return MappedHospitals;
         }
 
-        public Task<HospitalDto?> GetById(int? id)
+        public async Task<HospitalDto?> GetById(int? id)
         {
-            throw new NotImplementedException();
+           var Hospital=await HospitalRepository.GetById(id);
+           var MappedHospital = _mapper.Map<HospitalDto>(Hospital);
+           return MappedHospital;
+
         }
 
-        public Task Update(HospitalDto entity)
+        public async Task<int> Update(HospitalDto entity)
         {
-            throw new NotImplementedException();
+            var Hospital = await HospitalRepository.GetById(entity.Id);
+            var Mapped = _mapper.Map<Hospitals>(entity);
+            Hospital.Address= entity.Address;
+            Hospital.Name = entity.Name;
+            Hospital.City= entity.City;
+            Hospital.Country= entity.Country;
+            return await HospitalRepository.Update(Hospital);
         }
 
-        Task<int> IHospitalService.Add(HospitalDto entity)
-        {
-            throw new NotImplementedException();
-        }
+       
 
-        Task<int> IHospitalService.Update(HospitalDto entity)
-        {
-            throw new NotImplementedException();
-        }
+       
+       
 
-        Task<int> IHospitalService.Delete(HospitalDto entity)
-        {
-            throw new NotImplementedException();
-        }
+     
     }
 }
