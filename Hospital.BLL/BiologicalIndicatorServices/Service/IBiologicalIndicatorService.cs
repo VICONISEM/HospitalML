@@ -1,5 +1,6 @@
 ﻿using Hospital.BLL.BiologicalIndicatorServices.Dto;
 using Hospital.BLL.Repository;
+using Hospital.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
