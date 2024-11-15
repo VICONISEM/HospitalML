@@ -14,5 +14,11 @@ namespace Hospital.DAL.Entities
         public string Country { get; set; } = null!;
 
         public List<Patient> Patients { get; set; } = new List<Patient>();
+
+
+        
+        public ApplicationUser ApplicationUser { get; set; }
+
+       
 	}
 }
