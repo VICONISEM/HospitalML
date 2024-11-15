@@ -70,10 +70,10 @@ namespace Hospital.BLL.BiologicalIndicatorServices.Service
 
         }
 
-        public async Task<int> Delete(BiologicalIndicatorDto entity)
+        public async Task<int> Delete(BiologicalIndicators entity)
         {
-            var BI = _mapper.Map<BiologicalIndicators>(entity);
-            return await _BiologicalIndicatorsRepository.Delete(BI);
+            //var BI = _mapper.Map<BiologicalIndicators>(entity);
+            return await _BiologicalIndicatorsRepository.Delete(entity);
         }
     }
 }
