@@ -42,7 +42,9 @@ namespace HospitalML.Controllers
             {
                 Email = loginUser.Email,
                 Username = user.UserName,
-                Token = await tokenServices.CreateTokenAsync(user,userManager)
+                Token = await tokenServices.CreateTokenAsync(user, userManager),
+                HospitalName = _HospitalRepo.GetById(user.HospitalId).Result.Name
+
             };
             return Ok(userDto);
         }
@@ -91,7 +93,9 @@ namespace HospitalML.Controllers
             {
                 Email = user.Email,
                 Username = user.UserName,
-                HospitalName = _HospitalRepo.GetById(user.HospitalId).Result.Name
+                HospitalName = _HospitalRepo.GetById(user.HospitalId).Result.Name,
+                Token =Request.Headers["Authorization"].ToString().Replace("Bearer ", "")
+
             };
 
             return Ok(userDto);
