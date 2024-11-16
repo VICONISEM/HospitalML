@@ -219,8 +219,8 @@ namespace HospitalML.Controllers
             return Ok();
         }
 
-        [HttpPost("AddBio")]
-        public async Task<ActionResult> AddBio([FromQuery] BiologicalIndicatorDto indicatorDto, int UserId)
+        [HttpPost("AddBio/{UserId}")]
+        public async Task<ActionResult> AddBio(BiologicalIndicatorDto indicatorDto, int UserId)
         {
 
             try
