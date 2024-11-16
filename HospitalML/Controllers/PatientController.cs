@@ -189,22 +189,20 @@ namespace HospitalML.Controllers
             return Ok(patient);
         }
 
-        [HttpPost("UpdatePatient")]
-        public async Task<ActionResult<PatientDto>> UpdatePatient(PatientDto patientDto)
+        [HttpPost("UpdatePatient/{Id}")]
+        public async Task<ActionResult<PatientDto>> UpdatePatient(PatientDto patientDto, int Id)
         {
-
-            var PatientExist = await PatientRepo.GetById(patientDto.Id);
-            if (PatientExist == null) return BadRequest();
+            if(Id != 0 && Id != patientDto.Id) return BadRequest();
 
             var patient = mapper.Map<Patient>(patientDto);
 
             var Result = await PatientRepo.Update(patient);
 
             if (Result == 0) return BadRequest();
+            
+            return Ok(patientDto);
 
-            var patientRes = mapper.Map<PatientDto>(patient);
 
-            return Ok(patient);
         }
 
         [HttpPost("DeletePatient/{Id}")]

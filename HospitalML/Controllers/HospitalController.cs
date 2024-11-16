@@ -1,4 +1,6 @@
-﻿using Hospital.BLL.HospitalServices.Dto;
+﻿using AutoMapper;
+using Hospital.BLL.HospitalServices.Dto;
+using Hospital.BLL.PatientServices.Dto;
 using Hospital.BLL.Repository.Interface;
 using Hospital.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -16,12 +18,14 @@ namespace HospitalML.Controllers
         private readonly IGenaricRepository<Patient> PatientRepo;
         private readonly IGenaricRepository<Hospitals> HospitalRepo;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IMapper mapper;
 
-        public HospitalController(IGenaricRepository<Patient> PatientRepo, IGenaricRepository<Hospitals> HospitalRepo, UserManager<ApplicationUser> userManager)
+        public HospitalController(IGenaricRepository<Patient> PatientRepo, IGenaricRepository<Hospitals> HospitalRepo, UserManager<ApplicationUser> userManager, IMapper mapper)
         {
             this.PatientRepo = PatientRepo;
             this.HospitalRepo = HospitalRepo;
             this.userManager = userManager;
+            this.mapper = mapper;
         }
 
         [HttpPost("AddHospital")]
@@ -62,20 +66,13 @@ namespace HospitalML.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<HospitalDto>> UpdateHospital( HospitalDto hospitalDto, int Id)
         {
-            var hospital = new Hospitals()
-            {
-                Name = hospitalDto.Name,
-                Address = hospitalDto.Address,
-                City = hospitalDto.City,
-                Country = hospitalDto.Country,
-                Id = Id
-            };
+            if (Id != 0 && Id != hospitalDto.Id) return BadRequest();
+
+            var hospital = mapper.Map<Hospitals>(hospitalDto);
 
             var Result = await HospitalRepo.Update(hospital);
 
             if (Result == 0) return BadRequest();
-
-
 
             return Ok(hospitalDto);
         }
@@ -94,9 +91,6 @@ namespace HospitalML.Controllers
             {
                 hospitals = hospitals.Where(H => H.Id == user.HospitalId).ToList();
             }
-
-
-
 
             foreach (var hospital in hospitals)
             {
