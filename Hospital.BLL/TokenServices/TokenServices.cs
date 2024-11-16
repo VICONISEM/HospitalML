@@ -28,7 +28,6 @@ namespace Hospital.BLL.TokenServices
 
             var AuthClaims = new List<Claim>()
             {
-                new Claim(ClaimTypes.GivenName, User.UserName),
                 new Claim(ClaimTypes.Email, User.Email)
             };
 

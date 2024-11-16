@@ -10,7 +10,6 @@ using HospitalML.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Http;
 using System.Security.Claims;
 using System.Text.Json;
 
@@ -42,7 +41,6 @@ namespace HospitalML.Controllers
             this.BioRepo = BioRepo;
             this.userManager = userManager;
             this.context= context;
-
         }
 
         [HttpGet("AllNames")]

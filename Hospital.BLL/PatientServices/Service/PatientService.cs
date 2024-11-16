@@ -58,19 +58,14 @@ namespace Hospital.BLL.PatientServices.Service
 
         public async Task<List<BiologicalIndicatorsDto2>>GetAllCritical()
         {
-			 
 
-			
-			var criticalBI = await _BiologicalIndicatorsRepositoryRepository.GetAll();
+			var criticalBI = (await _BiologicalIndicatorsRepositoryRepository.GetAll()).Where(b => b.HealthCondition == "At Risk");
             foreach (var BI in criticalBI)
             {
                 _context.Entry(BI).Reference(n=>n.patient).Load(); 
             }
 
-
-			
 			var filter = criticalBI
-				.Where(b => b.HealthCondition == "At Risk")
 				.GroupBy(b => b.Date)
 				.Select(g => new BiologicalIndicatorsDto2
 				{
