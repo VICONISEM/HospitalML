@@ -24,7 +24,7 @@ namespace HospitalML.Controllers
         [HttpGet("AllNames")]
         public async Task<ActionResult<List<PatientDtoName>>> GetAllNames()
         {
-            var Names = await _IPatientService.GetAllName();
+            var Names = await _IPatientService.GetAllName() ;
             return Ok(Names);
         }
 
