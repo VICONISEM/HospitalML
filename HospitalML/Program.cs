@@ -90,9 +90,18 @@ namespace HospitalML
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredLength = 8;
             });
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins", policy =>
+                {
+                    policy.AllowAnyOrigin()  // Allow any origin
+                          .AllowAnyHeader()   // Allow any header
+                          .AllowAnyMethod();  // Allow any HTTP method (GET, POST, PUT, DELETE)
+                });
+            });
 
 
-			var app = builder.Build();
+            var app = builder.Build();
 
 
 			using var scope = app.Services.CreateScope();
@@ -103,7 +112,9 @@ namespace HospitalML
             HospitalMLSeed.SeedData(context);
 			IdentitySeed.SeedIdentity(services);
  
-			app.UseCors();
+			
+            app.UseCors("AllowAllOrigins");
+
 
             if (app.Environment.IsDevelopment() || app.Environment.IsStaging() || app.Environment.IsProduction())
             {
