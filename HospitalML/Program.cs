@@ -10,6 +10,7 @@ using Hospital.DAL.Contexts;
 using HospitalML.Extentions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using System.Linq.Expressions;
 
 namespace HospitalML
@@ -25,9 +26,39 @@ namespace HospitalML
 			builder.Services.AddControllers();
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
-			builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "HospitalML", Version = "v1" });
 
-			builder.Services.AddDbContext<HospitalDbContext>(options =>
+                // Adding Bearer Token Authorization
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,  // Token will be passed in the Header
+                    Description = "Enter Bearer Token",  // Description for Swagger UI
+                    Type = SecuritySchemeType.Http,  // The security type for HTTP-based authentication
+                    BearerFormat = "JWT",  // Indicating that the token is a JWT
+                    Scheme = "Bearer"  // This tells Swagger it's a Bearer token
+                });
+
+                // Applying the security requirement for all API endpoints
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"  // The ID should match the name of the security definition
+                }
+            },
+            new string[] { }
+        }
+    });
+            });
+
+
+            builder.Services.AddDbContext<HospitalDbContext>(options =>
 			{
 				options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 			});
