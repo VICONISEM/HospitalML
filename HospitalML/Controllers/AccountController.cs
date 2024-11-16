@@ -56,7 +56,7 @@ namespace HospitalML.Controllers
             var user = new ApplicationUser()
             {
                 Email = signUpUserDto.Email,
-                UserName = signUpUserDto.Username,
+                UserName = signUpUserDto.Email.Split('@')[0],
                 PhoneNumber = signUpUserDto.PhoneNumber,
                 HospitalId = signUpUserDto.HospitalId
             };
