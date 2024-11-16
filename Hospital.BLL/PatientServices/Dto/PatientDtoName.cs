@@ -10,5 +10,6 @@ namespace Hospital.BLL.PatientServices.Dto
     {
         public string Name { get; set; }
         public string State { get; set; }
+        public int HospitalId { get; set; }
     }
 }

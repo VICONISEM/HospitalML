@@ -77,7 +77,7 @@ namespace Hospital.BLL.PatientServices.Service
 					Date = g.Key,
 					Count = g.DistinctBy(p => p.PatientId).Count(),
 					Patients = g.DistinctBy(p => p.PatientId)
-								.Select(p => new PatientDtoName { Name = p.patient.Name,State = "At Risk" }) 
+								.Select(p => new PatientDtoName { Name = p.patient.Name,State = "At Risk",HospitalId=p.patient.HospitalId }) 
 								.ToList()  
 				})
 				.ToList();

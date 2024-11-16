@@ -4,11 +4,14 @@ using Hospital.BLL.BiologicalIndicatorServices.Service;
 using Hospital.BLL.PatientServices.Dto;
 using Hospital.BLL.PatientServices.Service;
 using Hospital.BLL.Repository.Interface;
+using Hospital.DAL.Contexts;
 using Hospital.DAL.Entities;
 using HospitalML.DTOs;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Text.Json;
 
 namespace HospitalML.Controllers
@@ -24,8 +27,12 @@ namespace HospitalML.Controllers
         private readonly IGenaricRepository<Patient> PatientRepo;
         private readonly HttpClient client;
         private readonly IGenaricRepository<BiologicalIndicators> BioRepo;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public PatientController(IPatientService PatientService, IBiologicalIndicatorService biologicalIndicatorService, IMapper mapper, IGenaricRepository<Patient> PatientRepo, HttpClient client, IGenaricRepository<BiologicalIndicators> BioRepo)
+        private readonly HospitalDbContext context;
+
+
+        public PatientController(IPatientService PatientService, IBiologicalIndicatorService biologicalIndicatorService, IMapper mapper, IGenaricRepository<Patient> PatientRepo, HttpClient client, IGenaricRepository<BiologicalIndicators> BioRepo, UserManager<ApplicationUser> userManager,HospitalDbContext context)
         {
             _IPatientService = PatientService;
             _IBiologicalIndicatorService = biologicalIndicatorService;
@@ -33,29 +40,105 @@ namespace HospitalML.Controllers
             this.PatientRepo = PatientRepo;
             this.client = client;
             this.BioRepo = BioRepo;
+            this.userManager = userManager;
+            this.context= context;
+
         }
 
         [HttpGet("AllNames")]
         public async Task<ActionResult<List<PatientDtoName>>> GetAllNames()
         {
-            var Names = await _IPatientService.GetAllName();
+            var Role = User.FindFirstValue(ClaimTypes.Role);
+            var Email = User.FindFirstValue(ClaimTypes.Email);
+            var user = await userManager.FindByEmailAsync(Email);
+
+            var Names= new List<PatientDtoName>();
+
+            if (Role == "Admin")
+            { 
+                 Names = await _IPatientService.GetAllName(); 
+            }
+            else
+            { 
+                 Names = _IPatientService.GetAllName().Result.Where(p=>p.HospitalId==user.HospitalId).ToList(); 
+            }
+
             return Ok(Names);
         }
 
         [HttpGet("{Name}")]
         public async Task<ActionResult<List<BiologicalIndicatorDto>>> GetBIByName(string Name)
         {
-            var Result = await _IPatientService.GetBIByName(Name);
+            var Role =User.FindFirstValue(ClaimTypes.Role);
+            var Email = User.FindFirstValue(ClaimTypes.Email);
+            var user = await userManager.FindByEmailAsync(Email);
+            var Result=new List<BiologicalIndicatorDto>();
+            if(Role=="Admin")
+            {
+                Result = await _IPatientService.GetBIByName(Name);
+            }
+
+            else
+            {
+
+                var filter = (await PatientRepo.GetAll())
+                  .Where(p => p.Name.Trim().ToLower() == Name.Trim().ToLower())
+                  .ToList();
+
+                
+                foreach (var patient in filter)
+                {
+                    context.Entry(patient).Collection(p => p.biologicalIndicators).Load(); 
+                }
+
+                var test = filter
+                                .Where(p => p.HospitalId == user.HospitalId)
+                                .SelectMany(p => p.biologicalIndicators)  
+                                .ToList();
+
+                Result = mapper.Map<List<BiologicalIndicatorDto>>(test);
+            }
+
             return Ok(Result);
         }
 
         [HttpGet("{Name}/{D1}/{D2}")]
         public async Task<ActionResult<List<BiologicalIndicatorDto>>> GetBIByNameFilter(string Name, DateOnly D1, DateOnly D2)
         {
+            var Role = User.FindFirstValue(ClaimTypes.Role);
+            var Email = User.FindFirstValue(ClaimTypes.Email);
+            var user = await userManager.FindByEmailAsync(Email);
+            var Result = new List<BiologicalIndicatorDto>();
+            var Filter = new List<BiologicalIndicatorDto>();
+
             if (D1 <= D2)
             {
-                var Result = await _IPatientService.GetBIByName(Name);
-                var Filter = Result.Where(R => R.date >= D1 && R.date <= D2);
+                if(Role=="Admin")
+                {
+                    Result = await _IPatientService.GetBIByName(Name);
+                    Filter = Result.Where(R => R.date >= D1 && R.date <= D2).ToList();
+                }
+
+                else
+                {
+                    var filter = (await PatientRepo.GetAll())
+                 .Where(p => p.Name.Trim().ToLower() == Name.Trim().ToLower())
+                 .ToList();
+
+
+                    foreach (var patient in filter)
+                    {
+                        context.Entry(patient).Collection(p => p.biologicalIndicators).Load();
+                    }
+
+                    var test = filter
+                                    .Where(p => p.HospitalId == user.HospitalId)
+                                    .SelectMany(p => p.biologicalIndicators)
+                                    .ToList();
+                
+                    Filter = mapper.Map<List<BiologicalIndicatorDto>>( test.Where(R => R.Date >= D1 && R.Date <= D2).ToList());
+                }
+                
                 return Ok(Filter);
             }
             else
@@ -74,8 +157,24 @@ namespace HospitalML.Controllers
         [HttpGet("GetAllCritical")]
         public async Task<ActionResult<List<BiologicalIndicatorsDto2>>> GetAllCritical()
         {
-            var Result = await _IPatientService.GetAllCritical();
-            return Ok(Result);
+            var Role = User.FindFirstValue(ClaimTypes.Role);
+            var Email = User.FindFirstValue(ClaimTypes.Email);
+            var user = await userManager.FindByEmailAsync(Email);
+            if(Role=="Admin")
+            {
+                
+                var Result = await _IPatientService.GetAllCritical();
+                return Ok(Result);
+            }
+            else
+            {
+                var Result = (await _IPatientService.GetAllCritical()).Select(report=>new BiologicalIndicatorsDto2 {Count=report.Patients.Where(P=>P.HospitalId==user.HospitalId).Count(),Date=report.Date,Patients=report.Patients.Where(p=>p.HospitalId==user.HospitalId).Select(p=>new PatientDtoName() {Name=p.Name,State=p.State,HospitalId=p.HospitalId }).ToList() });
+                return Ok(Result);
+            }
+
+
+        
+           
         }
 
         [HttpPost("CreatePatient")]
@@ -176,7 +275,7 @@ namespace HospitalML.Controllers
 
             var Result = await BioRepo.Delete(bio);
 
-            if(Result == 0) return BadRequest();
+            if (Result == 0) return BadRequest();
             return Ok();
         }
     }

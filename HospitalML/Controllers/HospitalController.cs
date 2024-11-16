@@ -21,7 +21,7 @@ namespace HospitalML.Controllers
         }
 
         [HttpPost("AddHospital")]
-        [Authorize(Roles ="Admin")]
+        //[Authorize(Roles ="Admin")]
         public async Task<ActionResult<HospitalDto>> AddHospital( [FromForm] HospitalDto hospitalDto)
         {
             Hospitals hospital = new Hospitals()
@@ -40,7 +40,7 @@ namespace HospitalML.Controllers
         }
 
         [HttpPost("DeleteHospital/{Id}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteHospital([FromForm] int id)
         {
             Hospitals? hospital = await HospitalRepo.GetById(id);
@@ -55,7 +55,7 @@ namespace HospitalML.Controllers
         }
 
         [HttpPost("UpdateHospital/{Id}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<HospitalDto>> UpdateHospital( HospitalDto hospitalDto, int Id)
         {
             var hospital = new Hospitals()
@@ -77,7 +77,7 @@ namespace HospitalML.Controllers
         }
 
         [HttpGet("GetHospitals")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<HospitalDto>>> GetAllHospitals()
         {
             var hospitals = await HospitalRepo.GetAll();
