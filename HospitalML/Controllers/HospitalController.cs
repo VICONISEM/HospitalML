@@ -2,7 +2,9 @@
 using Hospital.BLL.Repository.Interface;
 using Hospital.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace HospitalML.Controllers
 {
@@ -13,15 +15,17 @@ namespace HospitalML.Controllers
     {
         private readonly IGenaricRepository<Patient> PatientRepo;
         private readonly IGenaricRepository<Hospitals> HospitalRepo;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public HospitalController(IGenaricRepository<Patient> PatientRepo, IGenaricRepository<Hospitals> HospitalRepo)
+        public HospitalController(IGenaricRepository<Patient> PatientRepo, IGenaricRepository<Hospitals> HospitalRepo, UserManager<ApplicationUser> userManager)
         {
             this.PatientRepo = PatientRepo;
             this.HospitalRepo = HospitalRepo;
+            this.userManager = userManager;
         }
 
         [HttpPost("AddHospital")]
-        //[Authorize(Roles ="Admin")]
+        [Authorize(Roles ="Admin")]
         public async Task<ActionResult<HospitalDto>> AddHospital( [FromForm] HospitalDto hospitalDto)
         {
             Hospitals hospital = new Hospitals()
@@ -40,7 +44,7 @@ namespace HospitalML.Controllers
         }
 
         [HttpPost("DeleteHospital/{Id}")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteHospital([FromForm] int id)
         {
             Hospitals? hospital = await HospitalRepo.GetById(id);
@@ -55,7 +59,7 @@ namespace HospitalML.Controllers
         }
 
         [HttpPost("UpdateHospital/{Id}")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<HospitalDto>> UpdateHospital( HospitalDto hospitalDto, int Id)
         {
             var hospital = new Hospitals()
@@ -77,12 +81,22 @@ namespace HospitalML.Controllers
         }
 
         [HttpGet("GetHospitals")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize]
         public async Task<ActionResult<List<HospitalDto>>> GetAllHospitals()
         {
             var hospitals = await HospitalRepo.GetAll();
-
             var Result = new List<HospitalDto>();
+            var Role = User.FindFirstValue(ClaimTypes.Role);
+            var Email = User.FindFirstValue(ClaimTypes.Email);
+            var user = await userManager.FindByEmailAsync(Email);
+
+            if(Role!="Admin")
+            {
+                hospitals = hospitals.Where(H => H.Id == user.HospitalId).ToList();
+            }
+
+
+
 
             foreach (var hospital in hospitals)
             {
