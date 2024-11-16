@@ -47,24 +47,25 @@ namespace HospitalML.Controllers
             return hospitalDto;
         }
 
-        [HttpPost("DeleteHospital/{Id}")]
+        [HttpPost("DeleteHospital/{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> DeleteHospital(int ?id)
+        public async Task<ActionResult> DeleteHospital(int? id)
         {
+            if (!id.HasValue) return BadRequest("Invalid hospital ID.");
+
             Hospitals? hospital = await HospitalRepo.GetById(id.Value);
 
             if (hospital == null) return BadRequest();
 
-            var Email =  User.FindFirstValue(ClaimTypes.Email);
+            var Email = User.FindFirstValue(ClaimTypes.Email);
             var user = await userManager.FindByEmailAsync(Email);
 
-            user.HospitalId = null;
+            //user.HospitalId = null;
 
             var result = await HospitalRepo.Delete(hospital);
             await userManager.UpdateAsync(user);
-            
 
-            if(result == 0) return BadRequest();
+            if (result == 0) return BadRequest();
 
             return Ok();
         }
