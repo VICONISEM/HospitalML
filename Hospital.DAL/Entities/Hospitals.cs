@@ -17,7 +17,7 @@ namespace Hospital.DAL.Entities
 
 
         
-        public ApplicationUser ApplicationUser { get; set; }
+        public ApplicationUser ? ApplicationUser { get; set; }
 
        
 	}

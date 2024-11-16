@@ -49,13 +49,20 @@ namespace HospitalML.Controllers
 
         [HttpPost("DeleteHospital/{Id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> DeleteHospital(int id)
+        public async Task<ActionResult> DeleteHospital(int ?id)
         {
-            Hospitals? hospital = await HospitalRepo.GetById(id);
+            Hospitals? hospital = await HospitalRepo.GetById(id.Value);
 
             if (hospital == null) return BadRequest();
 
+            var Email =  User.FindFirstValue(ClaimTypes.Email);
+            var user = await userManager.FindByEmailAsync(Email);
+
+            user.HospitalId = null;
+
             var result = await HospitalRepo.Delete(hospital);
+            await userManager.UpdateAsync(user);
+            
 
             if(result == 0) return BadRequest();
 

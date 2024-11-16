@@ -15,7 +15,7 @@ namespace Hospital.DAL.Configurations
         {
             builder.HasOne(A => A.Hospital)
                 .WithOne(A => A.ApplicationUser)
-                .HasForeignKey<ApplicationUser>(A => A.HospitalId);
+                .HasForeignKey<ApplicationUser>(A => A.HospitalId).OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

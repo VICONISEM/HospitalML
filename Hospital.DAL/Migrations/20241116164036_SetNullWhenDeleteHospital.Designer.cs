@@ -4,6 +4,7 @@ using Hospital.DAL.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hospital.DAL.Migrations
 {
     [DbContext(typeof(HospitalDbContext))]
-    partial class HospitalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241116164036_SetNullWhenDeleteHospital")]
+    partial class SetNullWhenDeleteHospital
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -437,7 +440,8 @@ namespace Hospital.DAL.Migrations
 
             modelBuilder.Entity("Hospital.DAL.Entities.Hospitals", b =>
                 {
-                    b.Navigation("ApplicationUser");
+                    b.Navigation("ApplicationUser")
+                        .IsRequired();
 
                     b.Navigation("Patients");
                 });
