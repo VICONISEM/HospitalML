@@ -31,7 +31,7 @@ namespace HospitalML.Controllers
         private readonly HospitalDbContext context;
 
 
-        public PatientController(IPatientService PatientService, IBiologicalIndicatorService biologicalIndicatorService, IMapper mapper, IGenaricRepository<Patient> PatientRepo, HttpClient client, IGenaricRepository<BiologicalIndicators> BioRepo, UserManager<ApplicationUser> userManager,HospitalDbContext context)
+        public PatientController(IPatientService PatientService, IBiologicalIndicatorService biologicalIndicatorService, IMapper mapper, IGenaricRepository<Patient> PatientRepo, HttpClient client, IGenaricRepository<BiologicalIndicators> BioRepo, UserManager<ApplicationUser> userManager, HospitalDbContext context)
         {
             _IPatientService = PatientService;
             _IBiologicalIndicatorService = biologicalIndicatorService;
@@ -40,7 +40,7 @@ namespace HospitalML.Controllers
             this.client = client;
             this.BioRepo = BioRepo;
             this.userManager = userManager;
-            this.context= context;
+            this.context = context;
         }
 
         [HttpGet("AllNames")]
@@ -50,18 +50,40 @@ namespace HospitalML.Controllers
             var Email = User.FindFirstValue(ClaimTypes.Email);
             var user = await userManager.FindByEmailAsync(Email);
 
-            var Names= new List<PatientDtoName>();
+            var Names = new List<PatientDtoName>();
 
             if (Role == "Admin")
-            { 
-                 Names = await _IPatientService.GetAllName(); 
+            {
+                Names = await _IPatientService.GetAllName();
             }
             else
-            { 
-                 Names = _IPatientService.GetAllName().Result.Where(p=>p.HospitalId==user.HospitalId).ToList(); 
+            {
+                Names = _IPatientService.GetAllName().Result.Where(p => p.HospitalId == user.HospitalId).ToList();
             }
 
             return Ok(Names);
+        }
+
+
+
+        [HttpGet("GetUserInformation/{Id}")]
+
+        public async Task<ActionResult<PatientDto>>GetPatientInformation(int Id)
+        {
+
+            var Role = User.FindFirstValue(ClaimTypes.Role);
+            var Email = User.FindFirstValue(ClaimTypes.Email);
+            var user = await userManager.FindByEmailAsync(Email);
+            var Result = (await PatientRepo.GetById(Id));
+            if(Role=="Admin")
+            {
+                return Ok(mapper.Map<PatientDto>(Result));
+
+            }
+
+            if (Result == null||Result.HospitalId!=user.HospitalId) return BadRequest();
+            
+            return Ok(mapper.Map<PatientDto>(Result));
         }
 
         [HttpGet("{Name}")]

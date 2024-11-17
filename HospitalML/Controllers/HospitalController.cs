@@ -30,7 +30,7 @@ namespace HospitalML.Controllers
 
         [HttpPost("AddHospital")]
         [Authorize(Roles ="Admin")]
-        public async Task<ActionResult<HospitalDto>> AddHospital( [FromForm] HospitalDto hospitalDto)
+        public async Task<ActionResult<HospitalDto>> AddHospital(HospitalDto hospitalDto)
         {
             Hospitals hospital = new Hospitals()
             {
