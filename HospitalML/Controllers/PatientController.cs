@@ -75,8 +75,14 @@ namespace HospitalML.Controllers
             var Email = User.FindFirstValue(ClaimTypes.Email);
             var user = await userManager.FindByEmailAsync(Email);
             var Result = (await PatientRepo.GetById(Id));
+            if(Role=="Admin")
+            {
+                return Ok(mapper.Map<PatientDto>(Result));
+
+            }
 
             if (Result == null||Result.HospitalId!=user.HospitalId) return BadRequest();
+            
             return Ok(mapper.Map<PatientDto>(Result));
         }
 
