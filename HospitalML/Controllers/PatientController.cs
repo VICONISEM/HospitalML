@@ -199,8 +199,6 @@ namespace HospitalML.Controllers
             if (Result == 0) return BadRequest();
             
             return Ok(patientDto);
-
-
         }
 
         [HttpPost("DeletePatient/{Id}")]
