@@ -99,7 +99,6 @@ namespace HospitalML.Controllers
                 Username = user.UserName,
                 HospitalName = _HospitalRepo.GetById(user.HospitalId).Result.Name,
                 Token =Request.Headers["Authorization"].ToString().Replace("Bearer ", "")
-
             };
 
             return Ok(userDto);
