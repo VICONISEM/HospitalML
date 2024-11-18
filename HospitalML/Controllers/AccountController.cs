@@ -37,15 +37,19 @@ namespace HospitalML.Controllers
             var Result = await signInManager.CheckPasswordSignInAsync(user,loginUser.Password, false);
 
             if (!Result.Succeeded) return Unauthorized();
+            var Token = await tokenServices.CreateTokenAsync(user, userManager);
 
             var userDto = new UserDto()
             {
                 Email = loginUser.Email,
                 Username = user.UserName,
-                Token = await tokenServices.CreateTokenAsync(user, userManager),
-                HospitalName = _HospitalRepo.GetById(user.HospitalId).Result.Name
+                Token = Token,
+                HospitalName = _HospitalRepo.GetById(user.HospitalId).Result.Name,
+                Role = (await userManager.GetRolesAsync(user))[0]
+
 
             };
+
             return Ok(userDto);
         }
 
