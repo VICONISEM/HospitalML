@@ -56,6 +56,13 @@ namespace HospitalML.Controllers
         [HttpPost("CreateUser")]
         public async Task<ActionResult<UserDto>> CreateUser(SignUpUserDto signUpUserDto)
         {
+
+            var Flag = await userManager.FindByEmailAsync(signUpUserDto.Email);
+            if(Flag is not null)
+            {
+                return BadRequest("There is User With Same Email");
+            }
+
             var user = new ApplicationUser()
             {
                 Email = signUpUserDto.Email,
