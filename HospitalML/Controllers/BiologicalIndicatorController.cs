@@ -20,9 +20,9 @@ namespace HospitalML.Controllers
         public BiologicalIndicatorController(IBiologicalIndicatorService Service, IMapper mapper)
         {
             _biologicalIndicatorService = Service;
-            
             _mapper = mapper;
         }
+
         [HttpPost("Delete")]
         public async Task<ActionResult<int>>DeleteBio(int Id)
         {
@@ -36,7 +36,6 @@ namespace HospitalML.Controllers
             {
                 return BadRequest("Id Not Found");
             }
-
 
         }
 

@@ -55,15 +55,15 @@ namespace HospitalML.Controllers
 
             Hospitals? hospital = await HospitalRepo.GetById(id.Value);
 
-            if (hospital == null) return BadRequest();
+            if (hospital == null) return NotFound();
 
-            var Email = User.FindFirstValue(ClaimTypes.Email);
-            var user = await userManager.FindByEmailAsync(Email);
-
-            //user.HospitalId = null;
+            if (hospital.ApplicationUser != null)
+            {
+                hospital.ApplicationUser.HospitalId = null;
+                await HospitalRepo.Update(hospital);
+            }
 
             var result = await HospitalRepo.Delete(hospital);
-            await userManager.UpdateAsync(user);
 
             if (result == 0) return BadRequest();
 

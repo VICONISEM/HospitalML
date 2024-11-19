@@ -37,6 +37,7 @@ namespace HospitalML.Controllers
             var Result = await signInManager.CheckPasswordSignInAsync(user,loginUser.Password, false);
 
             if (!Result.Succeeded) return Unauthorized();
+
             var Token = await tokenServices.CreateTokenAsync(user, userManager);
 
             var userDto = new UserDto()
@@ -45,9 +46,7 @@ namespace HospitalML.Controllers
                 Username = user.UserName,
                 Token = Token,
                 HospitalName = _HospitalRepo.GetById(user.HospitalId).Result.Name,
-                Role = (await userManager.GetRolesAsync(user))[0]
-
-
+                Role = (await userManager.GetRolesAsync(user))[0],
             };
 
             return Ok(userDto);
@@ -79,7 +78,6 @@ namespace HospitalML.Controllers
                 HospitalName = _HospitalRepo.GetById(signUpUserDto.HospitalId).Result.Name,
                 Token = await tokenServices.CreateTokenAsync(user,userManager)
             };
-
             return userDto;
         }
 
@@ -98,11 +96,33 @@ namespace HospitalML.Controllers
                 Email = user.Email,
                 Username = user.UserName,
                 HospitalName = _HospitalRepo.GetById(user.HospitalId).Result.Name,
-                Token =Request.Headers["Authorization"].ToString().Replace("Bearer ", "")
+                Token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "")
             };
 
             return Ok(userDto);
         }
 
+        //[Authorize(Roles = "Admin")]
+        //[HttpGet("GetAllUsers")]
+        //public async Task<ActionResult<List<UserDto>>> GetUsersAsync()
+        //{
+        //    var users = userManager.Users.ToList();
+
+        //    var Result = new List<UserDto>();
+
+        //    foreach (var user in users)
+        //    {
+        //        Result.Add(new UserDto()
+        //        { 
+        //            Email = user.Email,
+        //            Username = user.UserName,
+        //            HospitalName = (await _HospitalRepo.GetById(user.HospitalId))?.Name ?? "No Hopital",
+        //            Role = (await userManager.GetRolesAsync(user))[0],
+        //            Token = "Dummy Token"
+        //        });
+        //    }
+
+        //    return Result;
+        //}
     }
 }
