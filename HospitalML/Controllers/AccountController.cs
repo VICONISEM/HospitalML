@@ -113,7 +113,7 @@ namespace HospitalML.Controllers
         //    foreach (var user in users)
         //    {
         //        Result.Add(new UserDto()
-        //        { 
+        //        {
         //            Email = user.Email,
         //            Username = user.UserName,
         //            HospitalName = (await _HospitalRepo.GetById(user.HospitalId))?.Name ?? "No Hopital",
@@ -123,6 +123,40 @@ namespace HospitalML.Controllers
         //    }
 
         //    return Result;
+        //}
+
+        //[Authorize(Roles = "Admin")]
+        //[HttpGet("GetByEmail/{Email}")]
+        //public async Task<ActionResult<UserDto>> GetUserByEmail(string Email)
+        //{
+        //    var user = await userManager.FindByEmailAsync(Email);
+
+        //    if (user == null) return NotFound();
+
+        //    return Ok(new UserDto()
+        //    {
+        //        Email = Email,
+        //        Username = user.UserName,
+        //        HospitalName = (await _HospitalRepo.GetById(user.HospitalId))?.Name ?? "No Hospital",
+        //        Token = "Dummy Token",
+        //        Role = (await userManager.GetRolesAsync(user))[0]
+        //    });
+        //}
+
+        //[Authorize(Roles = "Admin")]
+        //[HttpGet("Delete/{Email}")]
+        //public async Task<ActionResult> Delete(string Email)
+        //{
+            
+        //    var user = await userManager.FindByEmailAsync(Email);
+
+        //    if(user is null) return NotFound();
+
+        //    var result = await userManager.DeleteAsync(user);
+
+        //    if (!result.Succeeded) return BadRequest();
+
+        //    return Ok();
         //}
     }
 }
