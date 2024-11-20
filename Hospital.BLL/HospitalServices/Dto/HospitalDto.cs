@@ -11,7 +11,6 @@ namespace  Hospital.BLL.HospitalServices.Dto
         public string City { get; set; } = null!;
         public string Country { get; set; } = null!;
         public string ?ImageURL { get; set; } = null!;
-
         public IFormFile HospitalImage { get; set; }=null!;
 
     }
