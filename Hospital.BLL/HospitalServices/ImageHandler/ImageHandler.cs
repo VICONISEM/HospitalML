@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Hospital.BLL.HospitalServices.Dto;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Hospital.BLL.HospitalServices.ImageHandler
 {
     public  class ImageHandler
     {
-        public static string SavePhoto(IFormFile HospitalImage)
+        public static async Task<string> SavePhoto(IFormFile HospitalImage)
         {
             var FileName = $"{Guid.NewGuid()}-{HospitalImage.FileName}";
 
@@ -17,8 +18,22 @@ namespace Hospital.BLL.HospitalServices.ImageHandler
             var FileStream = new FileStream(FilePath,FileMode.Create);
         
             HospitalImage.CopyTo(FileStream);
-            FilePath = Path.Combine(FilePath, FileName);
+          
             return $"HospitalImages/{FileName}";
+        }
+
+
+        public static async Task DeletePhoto(string hospitalDto)
+        {
+            var FilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", hospitalDto);
+            if(File.Exists(FilePath))
+            {
+                File.Delete(FilePath);
+            }
+            else
+            {
+                return;
+            }
         }
     }
 }
