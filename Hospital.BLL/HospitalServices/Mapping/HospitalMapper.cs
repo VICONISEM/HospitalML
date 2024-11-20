@@ -14,7 +14,7 @@ namespace Hospital.BLL.HospitalServices.Mapping
     {
         public HospitalMapper() {
             CreateMap<Hospitals, HospitalDto>()
-                .ForMember(destination => destination.ImageURL, Source => Source.MapFrom<HospitalPictureURLResolver>())
+                .ForMember(destination => destination.ImageURL,  Source => Source.MapFrom<HospitalPictureURLResolver>())
                 .ReverseMap();
 
 

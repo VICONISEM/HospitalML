@@ -25,8 +25,4 @@
     <ProjectReference Include="..\Hospital.DAL\Hospital.DAL.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\HospitalImages\" />
-  </ItemGroup>
-
 </Project>

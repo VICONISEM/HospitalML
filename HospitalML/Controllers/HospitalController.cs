@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Hospital.BLL.HospitalServices.Dto;
+using Hospital.BLL.HospitalServices.ImageHandler;
 using Hospital.BLL.PatientServices.Dto;
 using Hospital.BLL.Repository.Interface;
 using Hospital.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -29,9 +31,11 @@ namespace HospitalML.Controllers
         }
 
         [HttpPost("AddHospital")]
-        [Authorize(Roles ="Admin")]
-        public async Task<ActionResult<HospitalDto>> AddHospital(HospitalDto hospitalDto)
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<HospitalDto>> AddHospital([FromForm] HospitalDto hospitalDto)
         {
+
+            hospitalDto.ImageURL = ImageHandler.SavePhoto(hospitalDto.HospitalImage);
             var hospital = mapper.Map<Hospitals>(hospitalDto);
             //Hospitals hospital = new Hospitals()
             //{
@@ -104,16 +108,16 @@ namespace HospitalML.Controllers
 
             foreach (var hospital in hospitals)
             {
-                var hospitalDto = mapper.Map<HospitalDto>(hospital);
-                //var hospitalDto = new HospitalDto()
-                //{
-                //    Address = hospital.Address,
-                //    Name = hospital.Name,
-                //    City = hospital.City,
-                //    Country = hospital.Country,
-                //    Id = hospital.Id,
-                //    ImageURL = hospital.ImageURL
-                //};
+                //var hospitalDto = mapper.Map<HospitalDto>(hospital);
+                var hospitalDto = new HospitalDto()
+                {
+                    Address = hospital.Address,
+                    Name = hospital.Name,
+                    City = hospital.City,
+                    Country = hospital.Country,
+                    Id = hospital.Id,
+                    ImageURL = $"{Request.Scheme}://{Request.Host}/{hospital.ImageURL}"
+                };
                 Result.Add(hospitalDto);
             }
 

@@ -114,6 +114,7 @@ namespace HospitalML
  
 			
             app.UseCors("AllowAllOrigins");
+            app.UseStaticFiles();
 
 
             if (app.Environment.IsDevelopment() || app.Environment.IsStaging() || app.Environment.IsProduction())
