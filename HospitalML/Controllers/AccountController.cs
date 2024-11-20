@@ -128,7 +128,6 @@ namespace HospitalML.Controllers
                     Token = "Dummy Token"
                 });
             }
-
             return Result;
         }
 

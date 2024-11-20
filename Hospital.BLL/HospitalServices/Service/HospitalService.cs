@@ -75,6 +75,7 @@ namespace Hospital.BLL.HospitalServices.Service
             Hospital.Name = entity.Name;
             Hospital.City= entity.City;
             Hospital.Country= entity.Country;
+            Hospital.ImageURL= entity.ImageURL;
             return await HospitalRepository.Update(Hospital);
         }
 

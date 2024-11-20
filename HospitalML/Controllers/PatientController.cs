@@ -94,6 +94,7 @@ namespace HospitalML.Controllers
             var Email = User.FindFirstValue(ClaimTypes.Email);
             var user = await userManager.FindByEmailAsync(Email);
             var Result=new List<BiologicalIndicatorDto>();
+
             if(Role=="Admin")
             {
                 Result = await _IPatientService.GetBIByName(Name);

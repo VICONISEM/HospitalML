@@ -32,13 +32,15 @@ namespace HospitalML.Controllers
         [Authorize(Roles ="Admin")]
         public async Task<ActionResult<HospitalDto>> AddHospital(HospitalDto hospitalDto)
         {
-            Hospitals hospital = new Hospitals()
-            {
-                Name = hospitalDto.Name,
-                Address = hospitalDto.Address,
-                City = hospitalDto.City,
-                Country = hospitalDto.Country
-            };
+            var hospital = mapper.Map<Hospitals>(hospitalDto);
+            //Hospitals hospital = new Hospitals()
+            //{
+            //    Name = hospitalDto.Name,
+            //    Address = hospitalDto.Address,
+            //    City = hospitalDto.City,
+            //    Country = hospitalDto.Country,
+            //    ImageURL = hospitalDto.ImageURL
+            //};
 
             var Result = await HospitalRepo.Add(hospital);
 
@@ -102,14 +104,16 @@ namespace HospitalML.Controllers
 
             foreach (var hospital in hospitals)
             {
-                var hospitalDto = new HospitalDto()
-                {
-                    Address = hospital.Address,
-                    Name = hospital.Name,
-                    City = hospital.City,
-                    Country = hospital.Country,
-                    Id = hospital.Id
-                };
+                var hospitalDto = mapper.Map<HospitalDto>(hospital);
+                //var hospitalDto = new HospitalDto()
+                //{
+                //    Address = hospital.Address,
+                //    Name = hospital.Name,
+                //    City = hospital.City,
+                //    Country = hospital.Country,
+                //    Id = hospital.Id,
+                //    ImageURL = hospital.ImageURL
+                //};
                 Result.Add(hospitalDto);
             }
 
