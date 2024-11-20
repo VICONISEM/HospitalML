@@ -48,6 +48,7 @@ namespace HospitalML.Controllers
         {
             var Role = User.FindFirstValue(ClaimTypes.Role);
             var Email = User.FindFirstValue(ClaimTypes.Email);
+
             var user = await userManager.FindByEmailAsync(Email);
 
             var Names = new List<PatientDtoName>();

@@ -45,7 +45,7 @@ namespace HospitalML.Controllers
                 Email = loginUser.Email,
                 Username = user.UserName,
                 Token = Token,
-                HospitalName = _HospitalRepo.GetById(user.HospitalId).Result.Name,
+                HospitalName = _HospitalRepo.GetById(user.HospitalId).Result?.Name ?? "No Hospital",
                 Role = (await userManager.GetRolesAsync(user))[0],
             };
 
@@ -82,7 +82,7 @@ namespace HospitalML.Controllers
             {
                 Email = signUpUserDto.Email,
                 Username = signUpUserDto.Username,
-                HospitalName = _HospitalRepo.GetById(signUpUserDto.HospitalId).Result.Name,
+                HospitalName = _HospitalRepo.GetById(signUpUserDto.HospitalId).Result?.Name ?? "No Hospital",
                 Token = await tokenServices.CreateTokenAsync(user,userManager)
             };
             return userDto;
@@ -102,68 +102,68 @@ namespace HospitalML.Controllers
             {
                 Email = user.Email,
                 Username = user.UserName,
-                HospitalName = _HospitalRepo.GetById(user.HospitalId).Result.Name,
+                HospitalName = _HospitalRepo.GetById(user.HospitalId).Result?.Name ?? "No Hospital",
                 Token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "")
             };
 
             return Ok(userDto);
         }
 
-        //[Authorize(Roles = "Admin")]
-        //[HttpGet("GetAllUsers")]
-        //public async Task<ActionResult<List<UserDto>>> GetUsersAsync()
-        //{
-        //    var users = userManager.Users.ToList();
+        [Authorize(Roles = "Admin")]
+        [HttpGet("GetAllUsers")]
+        public async Task<ActionResult<List<UserDto>>> GetUsersAsync()
+        {
+            var users = userManager.Users.ToList();
 
-        //    var Result = new List<UserDto>();
+            var Result = new List<UserDto>();
 
-        //    foreach (var user in users)
-        //    {
-        //        Result.Add(new UserDto()
-        //        {
-        //            Email = user.Email,
-        //            Username = user.UserName,
-        //            HospitalName = (await _HospitalRepo.GetById(user.HospitalId))?.Name ?? "No Hopital",
-        //            Role = (await userManager.GetRolesAsync(user))[0],
-        //            Token = "Dummy Token"
-        //        });
-        //    }
+            foreach (var user in users)
+            {
+                Result.Add(new UserDto()
+                {
+                    Email = user.Email,
+                    Username = user.UserName,
+                    HospitalName = (await _HospitalRepo.GetById(user.HospitalId))?.Name ?? "No Hopital",
+                    Role = (await userManager.GetRolesAsync(user))[0],
+                    Token = "Dummy Token"
+                });
+            }
 
-        //    return Result;
-        //}
+            return Result;
+        }
 
-        //[Authorize(Roles = "Admin")]
-        //[HttpGet("GetByEmail/{Email}")]
-        //public async Task<ActionResult<UserDto>> GetUserByEmail(string Email)
-        //{
-        //    var user = await userManager.FindByEmailAsync(Email);
+        [Authorize(Roles = "Admin")]
+        [HttpGet("GetByEmail/{Email}")]
+        public async Task<ActionResult<UserDto>> GetUserByEmail(string Email)
+        {
+            var user = await userManager.FindByEmailAsync(Email);
 
-        //    if (user == null) return NotFound();
+            if (user == null) return NotFound();
 
-        //    return Ok(new UserDto()
-        //    {
-        //        Email = Email,
-        //        Username = user.UserName,
-        //        HospitalName = (await _HospitalRepo.GetById(user.HospitalId))?.Name ?? "No Hospital",
-        //        Token = "Dummy Token",
-        //        Role = (await userManager.GetRolesAsync(user))[0]
-        //    });
-        //}
+            return Ok(new UserDto()
+            {
+                Email = Email,
+                Username = user.UserName,
+                HospitalName = (await _HospitalRepo.GetById(user.HospitalId))?.Name ?? "No Hospital",
+                Token = "Dummy Token",
+                Role = (await userManager.GetRolesAsync(user))[0]
+            });
+        }
 
-        //[Authorize(Roles = "Admin")]
-        //[HttpGet("Delete/{Email}")]
-        //public async Task<ActionResult> Delete(string Email)
-        //{
-            
-        //    var user = await userManager.FindByEmailAsync(Email);
+        [Authorize(Roles = "Admin")]
+        [HttpGet("Delete/{Email}")]
+        public async Task<ActionResult> Delete(string Email)
+        {
 
-        //    if(user is null) return NotFound();
+            var user = await userManager.FindByEmailAsync(Email);
 
-        //    var result = await userManager.DeleteAsync(user);
+            if (user is null) return NotFound();
 
-        //    if (!result.Succeeded) return BadRequest();
+            var result = await userManager.DeleteAsync(user);
 
-        //    return Ok();
-        //}
+            if (!result.Succeeded) return BadRequest();
+
+            return Ok();
+        }
     }
 }
