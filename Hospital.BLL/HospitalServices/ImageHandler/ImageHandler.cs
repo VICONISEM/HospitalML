@@ -15,11 +15,14 @@ namespace Hospital.BLL.HospitalServices.ImageHandler
             var FileName = $"{Guid.NewGuid()}-{HospitalImage.FileName}";
 
             var FilePath =Path.Combine(Directory.GetCurrentDirectory(),"wwwroot", "HospitalImages", FileName);
-            var FileStream = new FileStream(FilePath,FileMode.Create);
-        
-            HospitalImage.CopyTo(FileStream);
-          
-            return $"HospitalImages/{FileName}";
+            using (var FileStream = new FileStream(FilePath, FileMode.Create))
+            {
+                HospitalImage.CopyTo(FileStream);
+
+                return $"HospitalImages/{FileName}";
+            }
+
+                
         }
 
 
