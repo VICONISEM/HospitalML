@@ -44,7 +44,7 @@ namespace Hospital.BLL.PatientServices.Service
 
 
         public async Task <List<PatientDtoName>> GetAllName()
-         => await _patientRepository.GetAllName(); 
+         => (await _patientRepository.GetAllName()); 
         
 
         public async Task<List<BiologicalIndicatorDto>> GetBIByName(string name)
@@ -72,7 +72,7 @@ namespace Hospital.BLL.PatientServices.Service
 					Date = g.Key,
 					Count = g.DistinctBy(p => p.PatientId).Count(),
 					Patients = g.DistinctBy(p => p.PatientId)
-								.Select(p => new PatientDtoName {Id=p.Id, Name = p.patient.Name,State = "At Risk",HospitalId=p.patient.HospitalId }) 
+								.Select(p => new PatientDtoName {Id=p.Id, Name = p.patient.Name,LastBiologicalIndicator = new LastBiologicalIndicatorDTO() {HealthCondition= "At Risk" } ,HospitalId=p.patient.HospitalId }) 
 								.ToList()  
 				})
 				.ToList();

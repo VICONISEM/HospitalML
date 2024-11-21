@@ -115,12 +115,12 @@ namespace HospitalML.Controllers
           
             if(IfNewPhoto.ImageURL !=hospitalDto.ImageURL)
             {
-                await ImageHandler.DeletePhoto(IfNewPhoto.ImageURL);
-                hospitalDto.ImageURL = await ImageHandler.SavePhoto(hospitalDto.HospitalImage);
+                 ImageHandler.DeletePhoto(IfNewPhoto.ImageURL);
+              
             }
             mapper.Map(hospitalDto, IfNewPhoto);
-
-
+            IfNewPhoto.ImageURL = ImageHandler.SavePhoto(hospitalDto.HospitalImage).Result;
+            
             var Result = await HospitalRepo.Update(IfNewPhoto);
 
             if (Result == 0) return BadRequest();
