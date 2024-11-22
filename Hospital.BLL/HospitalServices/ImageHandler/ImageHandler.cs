@@ -12,6 +12,7 @@ namespace Hospital.BLL.HospitalServices.ImageHandler
     {
         public static async Task<string> SavePhoto(IFormFile HospitalImage)
         {
+
             var FileName = $"{Guid.NewGuid()}-{HospitalImage.FileName}";
 
             var FilePath =Path.Combine(Directory.GetCurrentDirectory(),"wwwroot", "HospitalImages", FileName);

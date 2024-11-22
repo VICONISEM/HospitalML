@@ -116,10 +116,11 @@ namespace HospitalML.Controllers
             if(IfNewPhoto.ImageURL !=hospitalDto.ImageURL)
             {
                  ImageHandler.DeletePhoto(IfNewPhoto.ImageURL);
-              
+                IfNewPhoto.ImageURL = ImageHandler.SavePhoto(hospitalDto.HospitalImage).Result;
+
             }
             mapper.Map(hospitalDto, IfNewPhoto);
-            IfNewPhoto.ImageURL = ImageHandler.SavePhoto(hospitalDto.HospitalImage).Result;
+          
             
             var Result = await HospitalRepo.Update(IfNewPhoto);
 
