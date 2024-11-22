@@ -105,44 +105,28 @@ namespace HospitalML.Controllers
 
         [HttpPost("UpdateHospital/{Id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<HospitalDto>> UpdateHospital(HospitalDto hospitalDto, int Id)
+        public async Task<ActionResult<HospitalDto>> UpdateHospital( HospitalDto hospitalDto, int Id)
         {
-            if (Id != hospitalDto.Id)
-                return BadRequest("The provided ID does not match the hospital's ID.");
+            var IfNewPhoto = await HospitalRepo.GetById(Id);
 
-            var hospitalToUpdate = await HospitalRepo.GetById(Id);
+            if (Id != 0 && Id != hospitalDto.Id) return BadRequest();
 
-            if (hospitalToUpdate == null)
-                return NotFound($"Hospital with ID {Id} not found.");
-
-            try
+            
+          
+            if(IfNewPhoto.ImageURL !=hospitalDto.ImageURL)
             {
-                if (hospitalDto.HospitalImage != null)
-                {
-                    if (!string.IsNullOrEmpty(hospitalToUpdate.ImageURL) &&
-                        hospitalToUpdate.ImageURL != hospitalDto.ImageURL)
-                    {
-                        ImageHandler.DeletePhoto(hospitalToUpdate.ImageURL);
-                    }
-
-                    hospitalToUpdate.ImageURL = await ImageHandler.SavePhoto(hospitalDto.HospitalImage);
-                }
-
-                mapper.Map(hospitalDto, hospitalToUpdate);
-
-                var result = await HospitalRepo.Update(hospitalToUpdate);
-
-                if (result == 0)
-                    return StatusCode(500, "Failed to update hospital in the database.");
+                 ImageHandler.DeletePhoto(IfNewPhoto.ImageURL);
+              
             }
-            catch (Exception ex)
-            {
-                return BadRequest($"An error occurred while updating the hospital: {ex.Message}");
-            }
+            mapper.Map(hospitalDto, IfNewPhoto);
+            IfNewPhoto.ImageURL = ImageHandler.SavePhoto(hospitalDto.HospitalImage).Result;
+            
+            var Result = await HospitalRepo.Update(IfNewPhoto);
+
+            if (Result == 0) return BadRequest();
 
             return Ok(hospitalDto);
         }
-
 
         [HttpGet("GetHospitals")]
         [Authorize]
