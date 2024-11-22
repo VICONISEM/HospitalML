@@ -70,7 +70,8 @@ namespace HospitalML.Controllers
                 hospital.ApplicationUser.HospitalId = null;
                 await HospitalRepo.Update(hospital);
             }
-           await ImageHandler.DeletePhoto(hospital.ImageURL);
+            if(hospital.ImageURL != null)
+           await ImageHandler.DeletePhoto(hospital.ImageURL.Substring(hospital.ImageURL.IndexOf("/HospitalImages") + 1));
             var result = await HospitalRepo.Delete(hospital);
 
             if (result == 0) return BadRequest();
