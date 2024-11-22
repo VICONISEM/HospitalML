@@ -105,28 +105,44 @@ namespace HospitalML.Controllers
 
         [HttpPost("UpdateHospital/{Id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<HospitalDto>> UpdateHospital( HospitalDto hospitalDto, int Id)
+        public async Task<ActionResult<HospitalDto>> UpdateHospital(HospitalDto hospitalDto, int Id)
         {
-            var IfNewPhoto = await HospitalRepo.GetById(Id);
+            if (Id != hospitalDto.Id)
+                return BadRequest("The provided ID does not match the hospital's ID.");
 
-            if (Id != 0 && Id != hospitalDto.Id) return BadRequest();
+            var hospitalToUpdate = await HospitalRepo.GetById(Id);
 
-            
-          
-            if(IfNewPhoto.ImageURL !=hospitalDto.ImageURL)
+            if (hospitalToUpdate == null)
+                return NotFound($"Hospital with ID {Id} not found.");
+
+            try
             {
-                 ImageHandler.DeletePhoto(IfNewPhoto.ImageURL);
-              
-            }
-            mapper.Map(hospitalDto, IfNewPhoto);
-            IfNewPhoto.ImageURL = ImageHandler.SavePhoto(hospitalDto.HospitalImage).Result;
-            
-            var Result = await HospitalRepo.Update(IfNewPhoto);
+                if (hospitalDto.HospitalImage != null)
+                {
+                    if (!string.IsNullOrEmpty(hospitalToUpdate.ImageURL) &&
+                        hospitalToUpdate.ImageURL != hospitalDto.ImageURL)
+                    {
+                        ImageHandler.DeletePhoto(hospitalToUpdate.ImageURL);
+                    }
 
-            if (Result == 0) return BadRequest();
+                    hospitalToUpdate.ImageURL = await ImageHandler.SavePhoto(hospitalDto.HospitalImage);
+                }
+
+                mapper.Map(hospitalDto, hospitalToUpdate);
+
+                var result = await HospitalRepo.Update(hospitalToUpdate);
+
+                if (result == 0)
+                    return StatusCode(500, "Failed to update hospital in the database.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"An error occurred while updating the hospital: {ex.Message}");
+            }
 
             return Ok(hospitalDto);
         }
+
 
         [HttpGet("GetHospitals")]
         [Authorize]
