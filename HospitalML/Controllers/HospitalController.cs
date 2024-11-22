@@ -114,9 +114,9 @@ namespace HospitalML.Controllers
 
 
 
-            if (IfNewPhoto.ImageURL != Url)
+            if (IfNewPhoto.ImageURL.Substring(hospitalDto.ImageURL.IndexOf("/HospitalImages") + 1) != Url)
             {
-                 ImageHandler.DeletePhoto(IfNewPhoto.ImageURL);
+                 ImageHandler.DeletePhoto(IfNewPhoto.ImageURL.Substring(hospitalDto.ImageURL.IndexOf("/HospitalImages") + 1));
                 IfNewPhoto.ImageURL = ImageHandler.SavePhoto(hospitalDto.HospitalImage).Result;
 
             }
