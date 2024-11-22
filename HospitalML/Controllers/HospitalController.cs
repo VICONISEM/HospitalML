@@ -111,17 +111,19 @@ namespace HospitalML.Controllers
 
             if (Id != 0 && Id != hospitalDto.Id) return BadRequest();
             var Url = hospitalDto.ImageURL.Substring(hospitalDto.ImageURL.IndexOf("/HospitalImages") + 1);
+            var U= Url;
 
 
 
             if (IfNewPhoto.ImageURL.Substring(hospitalDto.ImageURL.IndexOf("/HospitalImages") + 1) != Url)
             {
                  ImageHandler.DeletePhoto(IfNewPhoto.ImageURL.Substring(hospitalDto.ImageURL.IndexOf("/HospitalImages") + 1));
-                IfNewPhoto.ImageURL = ImageHandler.SavePhoto(hospitalDto.HospitalImage).Result;
+                if(hospitalDto.HospitalImage!=null)
+                 U= ImageHandler.SavePhoto(hospitalDto.HospitalImage).Result;
 
             }
             mapper.Map(hospitalDto, IfNewPhoto);
-           // IfNewPhoto.ImageURL = ImageHandler.SavePhoto(hospitalDto.HospitalImage).Result;
+            IfNewPhoto.ImageURL = U;
 
 
             var Result = await HospitalRepo.Update(IfNewPhoto);
