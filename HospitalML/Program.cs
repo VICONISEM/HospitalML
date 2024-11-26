@@ -8,6 +8,7 @@ using Hospital.BLL.Repository;
 using Hospital.BLL.Repository.Interface;
 using Hospital.DAL.Contexts;
 using HospitalML.Extentions;
+using HospitalML.SignalRHubNotify;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -72,6 +73,8 @@ namespace HospitalML
             builder.Services.AddScoped(typeof(IGenaricRepository<>), typeof(GenericRepository<>));
 
 			builder.Services.AddHttpClient();
+            builder.Services.AddSignalR();
+            builder.Services.AddScoped<PatientHub>();
 
 
             builder.Services.AddAutoMapper(x => x.AddProfile(new PatientMapper()));
@@ -144,8 +147,9 @@ namespace HospitalML
 			app.UseAuthorization();
 
 			app.MapControllers();
+            app.MapHub<PatientHub>("/CriticalNotify");
 
-			app.Run();
+            app.Run();
 		}
 	}
 }

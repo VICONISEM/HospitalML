@@ -7,9 +7,11 @@ using Hospital.BLL.Repository.Interface;
 using Hospital.DAL.Contexts;
 using Hospital.DAL.Entities;
 using HospitalML.DTOs;
+using HospitalML.SignalRHubNotify;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System.Security.Claims;
 using System.Text.Json;
 
@@ -27,11 +29,11 @@ namespace HospitalML.Controllers
         private readonly HttpClient client;
         private readonly IGenaricRepository<BiologicalIndicators> BioRepo;
         private readonly UserManager<ApplicationUser> userManager;
-
         private readonly HospitalDbContext context;
+        private readonly IHubContext<PatientHub> hub;
 
 
-        public PatientController(IPatientService PatientService, IBiologicalIndicatorService biologicalIndicatorService, IMapper mapper, IGenaricRepository<Patient> PatientRepo, HttpClient client, IGenaricRepository<BiologicalIndicators> BioRepo, UserManager<ApplicationUser> userManager, HospitalDbContext context)
+        public PatientController(IPatientService PatientService, IBiologicalIndicatorService biologicalIndicatorService, IMapper mapper, IGenaricRepository<Patient> PatientRepo, HttpClient client, IGenaricRepository<BiologicalIndicators> BioRepo, UserManager<ApplicationUser> userManager, HospitalDbContext context,IHubContext<PatientHub> hubContext)
         {
             _IPatientService = PatientService;
             _IBiologicalIndicatorService = biologicalIndicatorService;
@@ -41,6 +43,7 @@ namespace HospitalML.Controllers
             this.BioRepo = BioRepo;
             this.userManager = userManager;
             this.context = context;
+            hub = hubContext;
         }
 
         [HttpGet("AllNames")]
@@ -280,6 +283,11 @@ namespace HospitalML.Controllers
             var Result = await PatientRepo.Update(user);
 
             if (Result == 0) return BadRequest();
+
+            if(Bio.HealthCondition== "At Risk")
+            {
+                await hub.Clients.All.SendAsync("CriticalPatient", user.Id);
+            }
 
             return Ok();
 
