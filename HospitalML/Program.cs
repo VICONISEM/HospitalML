@@ -146,10 +146,23 @@ namespace HospitalML
 			app.UseAuthentication();
 			app.UseAuthorization();
 
+
 			app.MapControllers();
             app.MapHub<PatientHub>("/CriticalNotify");
 
             app.Run();
 		}
 	}
+
+            app.MapControllers();
+ 
+ 
+            app.Run();
+      
+
+
+
+        }
+    }
+
 }
