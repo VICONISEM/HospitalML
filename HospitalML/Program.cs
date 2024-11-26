@@ -16,17 +16,17 @@ using System.Linq.Expressions;
 
 namespace HospitalML
 {
-	public class Program
-	{
-		public static void Main(string[] args)
-		{
-			var builder = WebApplication.CreateBuilder(args);
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
 
-			// Add services to the container.
+            // Add services to the container.
 
-			builder.Services.AddControllers();
-			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-			builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddControllers();
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "HospitalML", Version = "v1" });
@@ -60,33 +60,33 @@ namespace HospitalML
 
 
             builder.Services.AddDbContext<HospitalDbContext>(options =>
-			{
-				options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-			});
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
 
-           
+
 
             //builder.Services.AddScoped<IPatientRepository, PatientRepository>();
-			builder.Services.AddScoped<IPatientService, PatientService>();
-			builder.Services.AddScoped<IBiologicalIndicatorService,BiologicalIndicatorService>();
+            builder.Services.AddScoped<IPatientService, PatientService>();
+            builder.Services.AddScoped<IBiologicalIndicatorService, BiologicalIndicatorService>();
 
             builder.Services.AddScoped(typeof(IGenaricRepository<>), typeof(GenericRepository<>));
 
-			builder.Services.AddHttpClient();
+            builder.Services.AddHttpClient();
             builder.Services.AddSignalR();
             builder.Services.AddScoped<PatientHub>();
 
 
             builder.Services.AddAutoMapper(x => x.AddProfile(new PatientMapper()));
-			builder.Services.AddAutoMapper(x=>x.AddProfile(new BiologicalIndicatorMapper()));
-			builder.Services.AddAutoMapper(x => x.AddProfile(new HospitalMapper()));
+            builder.Services.AddAutoMapper(x => x.AddProfile(new BiologicalIndicatorMapper()));
+            builder.Services.AddAutoMapper(x => x.AddProfile(new HospitalMapper()));
             //builder.Services.AddAutoMapper(typeof(PatientMapper));
 
-			//Add Identity Services TO DI Container
+            //Add Identity Services TO DI Container
             builder.Services.AddIdentityServices(builder.Configuration);
 
             builder.Services.Configure<IdentityOptions>(options =>
-			{
+            {
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
@@ -107,15 +107,15 @@ namespace HospitalML
             var app = builder.Build();
 
 
-			using var scope = app.Services.CreateScope();
-			var services = scope.ServiceProvider;
+            using var scope = app.Services.CreateScope();
+            var services = scope.ServiceProvider;
 
-			var context = services.GetRequiredService<HospitalDbContext>();
+            var context = services.GetRequiredService<HospitalDbContext>();
 
             HospitalMLSeed.SeedData(context);
-			IdentitySeed.SeedIdentity(services);
- 
-			
+            IdentitySeed.SeedIdentity(services);
+
+
             app.UseCors("AllowAllOrigins");
             app.UseStaticFiles();
 
@@ -134,35 +134,22 @@ namespace HospitalML
             }
             app.Services.ApplyMigrstions();
 
-			// Configure the HTTP request pipeline.
-			if (app.Environment.IsDevelopment())
-			{
-				app.UseSwagger();
-				app.UseSwaggerUI();
-			}
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
 
-			app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
-			app.UseAuthentication();
-			app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
-
-			app.MapControllers();
+            app.MapControllers();
             app.MapHub<PatientHub>("/CriticalNotify");
 
             app.Run();
-		}
-	}
-
-            app.MapControllers();
- 
- 
-            app.Run();
-      
-
-
-
         }
     }
-
 }
