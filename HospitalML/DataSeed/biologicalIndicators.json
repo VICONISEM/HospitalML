@@ -1,0 +1,89 @@
+[
+  {
+   
+    "Date": "2023-10-01",
+    "HealthaCondition": "Good",
+    "SugarPercentage": 5.6,
+    "BloodPressure": 120,
+    "AverageTemprature": 36.5,
+    "Time": "08:00:00",
+    "PatientId": 1
+   
+  },
+  {
+    
+    "Date": "2023-10-01",
+    "HealthaCondition": "Fair",
+    "SugarPercentage": 6.2,
+    "BloodPressure": 130,
+    "AverageTemprature": 37.0,
+    "Time": "09:00:00",
+    "PatientId": 2
+   
+  },
+  {
+ 
+    "Date": "2023-10-01",
+    "HealthaCondition": "Critical",
+    "SugarPercentage": 7.8,
+    "BloodPressure": 140,
+    "AverageTemprature": 38.5,
+    "Time": "10:00:00",
+    "PatientId": 3
+ 
+  },
+  {
+
+    "Date": "2023-10-01",
+    "HealthaCondition": "Good",
+    "SugarPercentage": 5.5,
+    "BloodPressure": 118,
+    "AverageTemprature": 36.4,
+    "Time": "08:30:00",
+    "PatientId": 4
+
+  },
+  {
+    "Date": "2023-10-02",
+    "HealthaCondition": "Stable",
+    "SugarPercentage": 5.9,
+    "BloodPressure": 122,
+    "AverageTemprature": 36.6,
+    "Time": "11:00:00",
+    "PatientId": 1
+
+  },
+  {
+ 
+    "Date": "2023-10-02",
+    "HealthaCondition": "Critical",
+    "SugarPercentage": 8.0,
+    "BloodPressure": 145,
+    "AverageTemprature": 39.0,
+    "Time": "12:00:00",
+    "PatientId": 2
+
+  },
+  {
+ 
+    "Date": "2023-10-03",
+    "HealthaCondition": "Good",
+    "SugarPercentage": 5.4,
+    "BloodPressure": 119,
+    "AverageTemprature": 36.5,
+    "Time": "08:15:00",
+    "PatientId": 5 
+  },
+  {
+    
+    "Date": "2023-10-03",
+    "HealthaCondition": "Fair",
+    "SugarPercentage": 6.1,
+    "BloodPressure": 131,
+    "AverageTemprature": 37.2,
+    "Time": "09:45:00",
+    "PatientId": 6
+
+  
+  }
+]
