@@ -6,9 +6,9 @@ using Hospital.BLL.PatientServices.Mapping;
 using Hospital.BLL.PatientServices.Service;
 using Hospital.BLL.Repository;
 using Hospital.BLL.Repository.Interface;
+using Hospital.BLL.SignalRHubNotify;
 using Hospital.DAL.Contexts;
 using HospitalML.Extentions;
-using HospitalML.SignalRHubNotify;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -115,9 +115,10 @@ namespace HospitalML
             HospitalMLSeed.SeedData(context);
             IdentitySeed.SeedIdentity(services);
 
-
+            app.MapHub<PatientHub>("/CriticalNotify");
             app.UseCors("AllowAllOrigins");
             app.UseStaticFiles();
+            app.MapControllers();
 
 
             if (app.Environment.IsDevelopment() || app.Environment.IsStaging() || app.Environment.IsProduction())
@@ -134,7 +135,6 @@ namespace HospitalML
             }
             app.Services.ApplyMigrstions();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -146,8 +146,8 @@ namespace HospitalML
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.MapControllers();
-            app.MapHub<PatientHub>("/CriticalNotify");
+          
+           
 
             app.Run();
         }

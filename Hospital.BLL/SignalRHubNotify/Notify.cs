@@ -1,7 +1,7 @@
 ﻿using Hospital.BLL.PatientServices.Dto;
 using Microsoft.AspNetCore.SignalR;
 
-namespace HospitalML.SignalRHubNotify
+namespace Hospital.BLL.SignalRHubNotify
 {
     public class PatientHub : Hub
     {
