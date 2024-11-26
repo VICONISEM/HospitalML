@@ -286,7 +286,16 @@ namespace HospitalML.Controllers
 
             if(Bio.HealthCondition== "At Risk")
             {
-                await hub.Clients.All.SendAsync("CriticalPatient", user.Id);
+                var patient = new PatientDtoName()
+                {
+                    Id=user.Id,
+                    HospitalId=user.HospitalId,
+                    LastBiologicalIndicator=new LastBiologicalIndicatorDTO()
+                    {AverageTemprature=Bio.AverageTemprature,BloodPressure=Bio.BloodPressure,HealthCondition=Bio.HealthCondition,SugarPercentage=Bio.SugarPercentage },
+                    Name=user.Name
+
+                };
+                await hub.Clients.All.SendAsync("CriticalPatient", patient);
             }
 
             return Ok();
