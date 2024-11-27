@@ -7,6 +7,8 @@ using Hospital.BLL.PatientServices.Service;
 using Hospital.BLL.Repository;
 using Hospital.BLL.Repository.Interface;
 using Hospital.DAL.Contexts;
+using HospitalML.EmailService;
+using HospitalML.EmailService.EmailAtuh;
 using HospitalML.Extentions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -68,7 +70,7 @@ namespace HospitalML
             //builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 			builder.Services.AddScoped<IPatientService, PatientService>();
 			builder.Services.AddScoped<IBiologicalIndicatorService,BiologicalIndicatorService>();
-
+            builder.Services.AddTransient<IMailService, MailService>();
             builder.Services.AddScoped(typeof(IGenaricRepository<>), typeof(GenericRepository<>));
 
 			builder.Services.AddHttpClient();
@@ -77,6 +79,7 @@ namespace HospitalML
             builder.Services.AddAutoMapper(x => x.AddProfile(new PatientMapper()));
 			builder.Services.AddAutoMapper(x=>x.AddProfile(new BiologicalIndicatorMapper()));
 			builder.Services.AddAutoMapper(x => x.AddProfile(new HospitalMapper()));
+            builder.Services.Configure<EmailInformation>(builder.Configuration.GetSection("EmailSettings"));
             //builder.Services.AddAutoMapper(typeof(PatientMapper));
 
 			//Add Identity Services TO DI Container

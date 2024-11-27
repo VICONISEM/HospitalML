@@ -72,7 +72,7 @@ namespace Hospital.BLL.PatientServices.Service
 					Date = g.Key,
 					Count = g.DistinctBy(p => p.PatientId).Count(),
 					Patients = g.DistinctBy(p => p.PatientId)
-								.Select(p => new PatientDtoName {Id=p.Id, Name = p.patient.Name,LastBiologicalIndicator = new LastBiologicalIndicatorDTO() {HealthCondition= "At Risk", AverageTemprature=p.AverageTemprature,BloodPressure=p.BloodPressure,SugarPercentage=p.SugarPercentage} ,HospitalId=p.patient.HospitalId }) 
+								.Select(p => new PatientDtoName {Id=p.patient.Id, Name = p.patient.Name,LastBiologicalIndicator = new LastBiologicalIndicatorDTO() {HealthCondition= "At Risk", AverageTemprature=p.AverageTemprature,BloodPressure=p.BloodPressure,SugarPercentage=p.SugarPercentage} ,HospitalId=p.patient.HospitalId }) 
 								.ToList()  
 				})
 				.ToList();

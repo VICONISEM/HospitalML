@@ -7,6 +7,7 @@ using Hospital.BLL.Repository.Interface;
 using Hospital.DAL.Contexts;
 using Hospital.DAL.Entities;
 using HospitalML.DTOs;
+using HospitalML.EmailService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -27,11 +28,12 @@ namespace HospitalML.Controllers
         private readonly HttpClient client;
         private readonly IGenaricRepository<BiologicalIndicators> BioRepo;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IMailService mailService;
 
         private readonly HospitalDbContext context;
 
 
-        public PatientController(IPatientService PatientService, IBiologicalIndicatorService biologicalIndicatorService, IMapper mapper, IGenaricRepository<Patient> PatientRepo, HttpClient client, IGenaricRepository<BiologicalIndicators> BioRepo, UserManager<ApplicationUser> userManager, HospitalDbContext context)
+        public PatientController(IPatientService PatientService, IBiologicalIndicatorService biologicalIndicatorService, IMapper mapper, IGenaricRepository<Patient> PatientRepo, HttpClient client, IGenaricRepository<BiologicalIndicators> BioRepo, UserManager<ApplicationUser> userManager, HospitalDbContext context,IMailService mailService)
         {
             _IPatientService = PatientService;
             _IBiologicalIndicatorService = biologicalIndicatorService;
@@ -41,6 +43,7 @@ namespace HospitalML.Controllers
             this.BioRepo = BioRepo;
             this.userManager = userManager;
             this.context = context;
+            this.mailService = mailService;
         }
 
         [HttpGet("AllNames")]
@@ -243,6 +246,7 @@ namespace HospitalML.Controllers
         public async Task<ActionResult> AddBio(BiologicalIndicatorDto indicatorDto, int UserId)
         {
 
+
             try
             {
                 var content = new StringContent(JsonSerializer.Serialize(new { sugarPercentage = indicatorDto.SugarPercentage, bloodPressure = indicatorDto.BloodPressure, averageTemprature = indicatorDto.AverageTemprature }), System.Text.Encoding.UTF8, "application/json");
@@ -274,6 +278,18 @@ namespace HospitalML.Controllers
             var user = await PatientRepo.GetById(UserId);
 
             if (user == null) return BadRequest();
+
+            if(Bio.HealthCondition== "At Risk")
+            {
+                var email = new Email()
+                {
+                    To = User.FindFirstValue(ClaimTypes.Email),
+                    Subject="There Is Patient At Risk Add Now",
+                    Body=$"Patient Name :{user.Name}\n SugarPercentage: {Bio.SugarPercentage} \nAverageTemprature: {Bio.AverageTemprature}\n BloodPressure: {Bio.BloodPressure}"
+
+                };
+                mailService.SendEmail(email);
+            }
 
             user.biologicalIndicators.Add(Bio);
 
