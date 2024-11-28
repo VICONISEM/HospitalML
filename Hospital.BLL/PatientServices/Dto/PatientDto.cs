@@ -12,6 +12,7 @@ namespace Hospital.BLL.PatientServices.Dto
         public string Name { get; set; } = null!;
         public string PhoneNumber { get; set; } = null!;
         public string Address { get; set; } = null!;
+        public int Age { get; set; }
         public bool Sex { get; set; } //True for Boys
         public int NumberOfBirth { get; set; }
         public bool Pregnant { get; set; }

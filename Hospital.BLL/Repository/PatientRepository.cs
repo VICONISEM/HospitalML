@@ -21,7 +21,7 @@ namespace Hospital.BLL.Repository
         }
         public async Task<List<PatientDtoName>> GetAllName()
         {
-            return await _context.patients.Select(p=>new PatientDtoName() { Id=p.Id, Name = p.Name, LastBiologicalIndicator = p.biologicalIndicators.OrderByDescending(b => b.Date).ThenByDescending(b => b.Time).Select(l=> new LastBiologicalIndicatorDTO() {AverageTemprature=l.AverageTemprature,BloodPressure=l.BloodPressure,HealthCondition=l.HealthCondition,SugarPercentage=l.SugarPercentage}).FirstOrDefault(),HospitalId=p.HospitalId }).ToListAsync();
+            return await _context.patients.Select(p=>new PatientDtoName() { Id=p.Id, Age=p.Age, Name = p.Name, LastBiologicalIndicator = p.biologicalIndicators.OrderByDescending(b => b.Date).ThenByDescending(b => b.Time).Select(l=> new LastBiologicalIndicatorDTO() {AverageTemprature=l.AverageTemprature,BloodPressure=l.BloodPressure,HealthCondition=l.HealthCondition,SugarPercentage=l.SugarPercentage}).FirstOrDefault(),HospitalId=p.HospitalId }).ToListAsync();
         }
 
         public async Task<List<BiologicalIndicators>> GetBIByName(string name)

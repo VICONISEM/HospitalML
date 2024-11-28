@@ -193,7 +193,7 @@ namespace HospitalML.Controllers
             }
             else
             {
-                var Result = (await _IPatientService.GetAllCritical()).Select(report=>new BiologicalIndicatorsDto2 {Count=report.Patients.Where(P=>P.HospitalId==user.HospitalId).Count(),Date=report.Date,Patients=report.Patients.Where(p=>p.HospitalId==user.HospitalId).Select(p=>new PatientDtoName() {Id = p.Id, Name=p.Name,LastBiologicalIndicator=p.LastBiologicalIndicator,HospitalId=p.HospitalId }).ToList() });
+                var Result = (await _IPatientService.GetAllCritical()).Select(report=>new BiologicalIndicatorsDto2 {Count=report.Patients.Where(P=>P.HospitalId==user.HospitalId).Count(),Date=report.Date,Patients=report.Patients.Where(p=>p.HospitalId==user.HospitalId).Select(p=>new PatientDtoName() {Id = p.Id,Age=p.Age,Name=p.Name,LastBiologicalIndicator=p.LastBiologicalIndicator,HospitalId=p.HospitalId }).ToList() });
                 return Ok(Result);
             }
 
