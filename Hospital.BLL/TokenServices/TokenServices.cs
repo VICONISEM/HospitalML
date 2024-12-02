@@ -42,7 +42,7 @@ namespace Hospital.BLL.TokenServices
             var Token = new JwtSecurityToken(
                 issuer: configuration["JWT:ValidIssuer"],
                 audience: configuration["JWT:ValidAudience"],
-                expires: DateTime.Now.AddDays(double.Parse(configuration["JWT:DurationInDays"])),
+                expires: DateTime.Now.AddDays(double.Parse(configuration["JWT:DurationInDays"] ?? "1")),
                 claims: AuthClaims,
                 signingCredentials: new SigningCredentials(AuthKey, SecurityAlgorithms.HmacSha256Signature)
             );

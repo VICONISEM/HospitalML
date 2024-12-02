@@ -93,6 +93,8 @@ namespace HospitalML
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredLength = 8;
             });
+
+
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowAllOrigins", policy =>
@@ -119,7 +121,6 @@ namespace HospitalML
             app.UseCors("AllowAllOrigins");
             app.UseStaticFiles();
             app.MapControllers();
-
 
             if (app.Environment.IsDevelopment() || app.Environment.IsStaging() || app.Environment.IsProduction())
             {
